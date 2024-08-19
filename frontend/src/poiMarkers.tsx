@@ -27,8 +27,13 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
     [map, activeMarker]
   );
 
+  interface RendererProps {
+    count: number;
+    position: google.maps.LatLng | google.maps.LatLngLiteral;
+  }
+
   const renderer = {
-    render: ({ count, position }) =>
+    render: ({ count, position }: RendererProps) =>
       new google.maps.Marker({
         label: { text: String(count), color: "black", fontSize: "10px" },
         position,
@@ -115,7 +120,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
         <InfoWindow
           position={activeMarker.location}
           onCloseClick={() => setActiveMarker(null)}
-          options={{ pixelOffset: new google.maps.Size(0, -40) }}
+          pixelOffset={[0, -40]}
         >
           <div>
             <h2>Location Info</h2>

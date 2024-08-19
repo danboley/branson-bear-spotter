@@ -1,7 +1,6 @@
-import React from "react";
 import { Map, MapCameraChangedEvent } from "@vis.gl/react-google-maps";
 import PoiMarkers from "./poiMarkers";
-import { locations } from "./locations.ts";
+import { locations } from "./types/locations";
 
 const MapContainer = () => (
   <Map
