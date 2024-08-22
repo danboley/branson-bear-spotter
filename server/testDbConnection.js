@@ -2,14 +2,6 @@ require("dotenv").config();
 
 const { Client } = require("pg");
 
-// const client = new Client({
-//   user: "dblocal",
-//   host: "localhost",
-//   database: "branson_db_dev",
-//   password: "dblocal",
-//   port: 5432,
-// });
-
 const client = new Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
