@@ -6,10 +6,10 @@ import MapContainer from "./mapContainer";
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const App = () => {
-  const [backendData, setBackendData] = useState([{}]);
-
+  // const [backendData, setBackendData] = useState([{}]);
+  // console.log(backendData);
   // useEffect(() => {
-  //   fetch("http://localhost:5005/api")
+  //   fetch("http://localhost:5005/api/users")
   //     .then((res) => res.json())
   //     .then((data) => {
   //       setBackendData(data);

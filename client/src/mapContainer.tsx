@@ -9,9 +9,9 @@ const MapContainer = () => (
     //// Branson, MO:
     // defaultCenter={{ lat: 36.64398023185545, lng: -93.21784457195432 }}
     mapId="DEMO_MAP_ID"
-    onCameraChanged={(ev: MapCameraChangedEvent) =>
-      console.log("camera changed:", ev.detail.center, "zoom:", ev.detail.zoom)
-    }
+    // onCameraChanged={(ev: MapCameraChangedEvent) =>
+    //   console.log("camera changed:", ev.detail.center, "zoom:", ev.detail.zoom)
+    // }
   >
     <PoiMarkers pois={locations} />
   </Map>
