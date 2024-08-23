@@ -7,9 +7,11 @@ const {
   updatePoi,
   deletePoi,
 } = require("../controllers/poiController");
+const { authenticate } = require("../controllers/authController");
+const { authenticateToken, verifyPrivileges } = require("../middlewares/auth");
 
 // Create a new POI
-router.post("/", createPoi);
+router.post("/", authenticate, createPoi);
 
 // Get all POIs
 router.get("/", getAllPois);
@@ -18,9 +20,9 @@ router.get("/", getAllPois);
 router.get("/:id", getPoiById);
 
 // Update a POI
-router.put("/:id", updatePoi);
+router.put("/:id", authenticateToken, verifyPrivileges, updatePoi);
 
 // Delete a POI
-router.delete("/:id", deletePoi);
+router.delete("/:id", authenticateToken, verifyPrivileges, deletePoi);
 
 module.exports = router;

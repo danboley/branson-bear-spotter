@@ -23,22 +23,46 @@ module.exports = (sequelize, DataTypes) => {
       name: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: { msg: "Name must not be empty." },
+          len: {
+            args: [3, 100],
+            msg: "Name must be between 3 and 100 characters.",
+          },
+        },
       },
       address: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: { msg: "Address must not be empty." },
+        },
       },
       details: {
         type: DataTypes.TEXT,
-        allowNull: false,
+        allowNull: true,
       },
       latitude: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
+        validate: {
+          isValidLatitude(lat) {
+            if (typeof lat !== "number" || lat < -90 || lat > 90) {
+              throw new Error("Invalid latitude.");
+            }
+          },
+        },
       },
       longitude: {
         type: DataTypes.FLOAT,
-        allowNull: false,
+        allowNull: true,
+        validate: {
+          isValidLongitude(long) {
+            if (typeof long !== "number" || long < -180 || long > 180) {
+              throw new Error("Invalid longitude.");
+            }
+          },
+        },
       },
       approvalStatus: {
         type: DataTypes.STRING,

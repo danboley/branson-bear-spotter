@@ -25,7 +25,11 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         unique: true,
         validate: {
-          len: [3, 20],
+          notEmpty: { msg: "Username must not be empty." },
+          len: {
+            args: [3, 20],
+            msg: "Username must be between 3 and 100 characters.",
+          },
         },
       },
       email: {
@@ -39,14 +43,23 @@ module.exports = (sequelize, DataTypes) => {
       password: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: { msg: "Password must not be empty." },
+        },
       },
       firstName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: { msg: "First name must not be empty." },
+        },
       },
       lastName: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          notEmpty: { msg: "Last name must not be empty." },
+        },
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
