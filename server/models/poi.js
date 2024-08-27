@@ -76,6 +76,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: true,
       },
+      imagePath: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
       userId: {
         type: DataTypes.UUID,
         references: {

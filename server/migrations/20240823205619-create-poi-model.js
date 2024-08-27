@@ -66,6 +66,10 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: true,
       },
+      imagePath: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       userId: {
         type: Sequelize.UUID,
         references: {
