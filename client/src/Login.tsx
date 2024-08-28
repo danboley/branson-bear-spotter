@@ -11,11 +11,15 @@ const Login: React.FC = () => {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5005/api/auth/login", { email, password });
+      const response = await axios.post(
+        "http://localhost:5005/api/auth/login",
+        { email, password }
+      );
       const userData = response.data;
-      login(userData);
+      console.log("User data received from backend:", userData);
+      login({ token: userData.token, userId: userData.user.id });
       console.log("Login successful");
-      window.location.href = "/home";
+      //   window.location.href = "/home";
     } catch (error) {
       console.error("Login failed", error);
     }

@@ -27,16 +27,16 @@ const App = () => {
       onLoad={() => console.log("Maps API has loaded.")}
     >
       <AuthProvider>
-      <Router>
-        <Routes>
-        <Route path="/" element={<Home backendData={backendData}/>} />
-          <Route path="/home" element={<Home backendData={backendData}/>} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/map" element={<MapContainer />} />
-          <Route path="/submissions" element={<PoiForm />} />
-        </Routes>
-      </Router>
+        <Router>
+          <Routes>
+            <Route path="/" element={<Home backendData={backendData} />} />
+            <Route path="/home" element={<Home backendData={backendData} />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/map" element={<MapContainer />} />
+            <Route path="/submissions" element={<PoiForm />} />
+          </Routes>
+        </Router>
       </AuthProvider>
     </APIProvider>
   );

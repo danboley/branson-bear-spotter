@@ -1,8 +1,15 @@
-import React, { createContext, useState, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useEffect,
+  useState,
+  useContext,
+  ReactNode,
+} from "react";
 
 interface AuthContextType {
-  user: any;
-  login: (userData: any) => void;
+  token: string | null;
+  userId: string | null;
+  login: (data: { token: string; userId: string }) => void;
   logout: () => void;
 }
 
@@ -11,25 +18,39 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState<any>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [userId, setUserId] = useState<string | null>(null);
 
-  const login = (userData: any) => {
-    setUser(userData);
-    localStorage.setItem("user", JSON.stringify(userData));
+  //   const login = (data: { token: string; userId: string }) => {
+  //     setToken(data.token);
+  //     setUserId(data.userId);
+  //   };
+  const login = (data: { token: string; userId: string }) => {
+    console.log("Login function called with data:", data);
+    setToken(data.token);
+    setUserId(data.userId);
+    console.log("State updated: token:", data.token);
+    console.log("State updated: userId:", data.userId);
   };
+
+  useEffect(() => {
+    console.log("AuthContext: Token and userId state changes", {
+      token,
+      userId,
+    });
+  }, [token, userId]);
 
   const logout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+    setToken(null);
+    setUserId(null);
+    console.log("Logged out now.");
   };
 
-  const value = {
-    user,
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ token, userId, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export const useAuth = (): AuthContextType => {
