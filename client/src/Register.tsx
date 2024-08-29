@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
+import { useAuth } from "./AuthContext";
 
 const Register: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +13,8 @@ const Register: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const { login } = useAuth();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -28,7 +31,8 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5005/api/auth/register", {
+      // Register
+      await axios.post("http://localhost:5005/api/auth/register", {
         username: formData.username,
         email: formData.email,
         password: formData.password,
@@ -38,7 +42,20 @@ const Register: React.FC = () => {
         profilePicture: formData.profilePicture,
         isAdmin: false,
       });
-      console.log("Registration successful:", response.data);
+
+      // Login
+      const loginResponse = await axios.post(
+        "http://localhost:5005/api/auth/login",
+        {
+          email: formData.email,
+          password: formData.password,
+        }
+      );
+
+      const { token, userId } = loginResponse.data;
+      login({ token, userId });
+      window.location.href = "/home";
+      console.log("Registration successful");
     } catch (error) {
       console.error("Error registering user:", error);
     }
