@@ -4,8 +4,6 @@ import { useAuth } from "./AuthContext";
 
 const PoiSubmissionForm = () => {
   const { userId, token } = useAuth();
-  console.log("poi form user id:", userId);
-  console.log("poi form token:", token);
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -23,7 +21,7 @@ const PoiSubmissionForm = () => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-    console.log("formData", formData);
+    console.log(formData);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -54,14 +52,19 @@ const PoiSubmissionForm = () => {
       console.error("User ID is missing");
       return;
     }
-
+    console.log(data);
     try {
-      const response = await axios.post("/api/pois", data, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      console.log(data);
+      const response = await axios.post(
+        "http://localhost:5005/api/pois",
+        data,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       console.log("POI submitted successfully:", response.data);
     } catch (error) {
       console.error("Error submitting POI:", error);
@@ -116,15 +119,6 @@ const PoiSubmissionForm = () => {
           onChange={handleChange}
         />
       </div>
-      {/* <div>
-        <label>Approval Notes:</label>
-        <input
-          type="text"
-          name="approvalNotes"
-          value={formData.approvalNotes}
-          onChange={handleChange}
-        />
-      </div> */}
       <div>
         <label>Image:</label>
         <input type="file" name="image" onChange={handleFileChange} />

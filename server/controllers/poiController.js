@@ -10,7 +10,7 @@ const createPoi = async (req, res) => {
     try {
       const newPoi = await Poi.create({
         ...req.body,
-        imageUrl: req.file ? `/uploads/${req.file.filename}` : null,
+        imagePath: req.file ? `/uploads/${req.file.filename}` : null,
       });
       res.status(201).json(newPoi);
     } catch (error) {

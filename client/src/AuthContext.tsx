@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useEffect,
-  useState,
-  useContext,
-  ReactNode,
-} from "react";
+import React, { createContext, useState, useContext, ReactNode } from "react";
 
 interface AuthContextType {
   token: string | null;
@@ -18,32 +12,26 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [token, setToken] = useState<string | null>(null);
-  const [userId, setUserId] = useState<string | null>(null);
+  const [token, setToken] = useState<string | null>(
+    localStorage.getItem("token")
+  );
+  const [userId, setUserId] = useState<string | null>(
+    localStorage.getItem("userId")
+  );
 
-  //   const login = (data: { token: string; userId: string }) => {
-  //     setToken(data.token);
-  //     setUserId(data.userId);
-  //   };
   const login = (data: { token: string; userId: string }) => {
-    console.log("Login function called with data:", data);
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("userId", data.userId);
     setToken(data.token);
     setUserId(data.userId);
-    console.log("State updated: token:", data.token);
-    console.log("State updated: userId:", data.userId);
   };
 
-  useEffect(() => {
-    console.log("AuthContext: Token and userId state changes", {
-      token,
-      userId,
-    });
-  }, [token, userId]);
-
   const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     setToken(null);
     setUserId(null);
-    console.log("Logged out now.");
+    console.log("User logged out");
   };
 
   return (

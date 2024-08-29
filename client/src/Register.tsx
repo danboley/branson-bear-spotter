@@ -36,6 +36,7 @@ const Register: React.FC = () => {
         lastName: formData.lastName,
         location: formData.location,
         profilePicture: formData.profilePicture,
+        isAdmin: false,
       });
       console.log("Registration successful:", response.data);
     } catch (error) {

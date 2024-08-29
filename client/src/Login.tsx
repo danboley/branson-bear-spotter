@@ -16,10 +16,9 @@ const Login: React.FC = () => {
         { email, password }
       );
       const userData = response.data;
-      console.log("User data received from backend:", userData);
       login({ token: userData.token, userId: userData.user.id });
       console.log("Login successful");
-      //   window.location.href = "/home";
+      window.location.href = "/home";
     } catch (error) {
       console.error("Login failed", error);
     }
