@@ -52,8 +52,8 @@ const Register: React.FC = () => {
         }
       );
 
-      const { token, userId } = loginResponse.data;
-      login({ token, userId });
+      const { token, user } = loginResponse.data;
+      login({ token, userId: user.id, isAdmin: user.isAdmin });
       window.location.href = "/home";
       console.log("Registration successful");
     } catch (error) {

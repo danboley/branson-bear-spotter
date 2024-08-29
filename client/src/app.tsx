@@ -4,10 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { AuthProvider } from "./AuthContext";
 import MapContainer from "./mapContainer";
-import PoiForm from "./poiForm";
-import Home from "./home";
+import PoiForm from "./PoiForm";
+import Home from "./Home";
 import Register from "./Register";
 import Login from "./Login";
+import NavBar from "./NavBar";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -28,6 +29,7 @@ const App = () => {
     >
       <AuthProvider>
         <Router>
+          <NavBar />
           <Routes>
             <Route path="/" element={<Home backendData={backendData} />} />
             <Route path="/home" element={<Home backendData={backendData} />} />
