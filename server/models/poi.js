@@ -46,8 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: true,
         validate: {
-          isValidLatitude(lat) {
-            if (typeof lat !== "number" || lat < -90 || lat > 90) {
+          isValidLatitude(value) {
+            if (typeof value === "string") value = parseFloat(value);
+            if (value < -90 || value > 90) {
               throw new Error("Invalid latitude.");
             }
           },
@@ -57,8 +58,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.FLOAT,
         allowNull: true,
         validate: {
-          isValidLongitude(long) {
-            if (typeof long !== "number" || long < -180 || long > 180) {
+          isValidLongitude(value) {
+            if (typeof value === "string") value = parseFloat(value);
+            if (value < -180 || value > 180) {
               throw new Error("Invalid longitude.");
             }
           },
@@ -73,6 +75,10 @@ module.exports = (sequelize, DataTypes) => {
         },
       },
       approvalNotes: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      imagePath: {
         type: DataTypes.STRING,
         allowNull: true,
       },

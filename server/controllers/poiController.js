@@ -1,13 +1,22 @@
 const { Poi, User } = require("../models");
+const upload = require("../middlewares/imageUploads");
 
 // Create a new POI
 const createPoi = async (req, res) => {
-  try {
-    const newPoi = await Poi.create(req.body);
-    res.status(201).json(newPoi);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err });
+    }
+    try {
+      const newPoi = await Poi.create({
+        ...req.body,
+        imagePath: req.file ? `/uploads/${req.file.filename}` : null,
+      });
+      res.status(201).json(newPoi);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 };
 
 // Get all POIs

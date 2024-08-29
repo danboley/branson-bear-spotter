@@ -13,20 +13,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: { msg: "Name must not be empty." },
-          len: {
-            args: [3, 100],
-            msg: "Name must be between 3 and 100 characters.",
-          },
-        },
       },
       address: {
         type: Sequelize.STRING,
         allowNull: false,
-        validate: {
-          notEmpty: { msg: "Address must not be empty." },
-        },
       },
       details: {
         type: Sequelize.TEXT,
@@ -35,34 +25,21 @@ module.exports = {
       latitude: {
         type: Sequelize.FLOAT,
         allowNull: true,
-        validate: {
-          isValidLatitude(lat) {
-            if (typeof lat !== "number" || lat < -90 || lat > 90) {
-              throw new Error("Invalid latitude.");
-            }
-          },
-        },
       },
       longitude: {
         type: Sequelize.FLOAT,
         allowNull: true,
-        validate: {
-          isValidLongitude(long) {
-            if (typeof long !== "number" || long < -180 || long > 180) {
-              throw new Error("Invalid longitude.");
-            }
-          },
-        },
       },
       approvalStatus: {
         type: Sequelize.STRING,
         allowNull: false,
         defaultValue: "pending",
-        validate: {
-          isIn: [["active", "denied", "pending"]],
-        },
       },
       approvalNotes: {
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      imagePath: {
         type: Sequelize.STRING,
         allowNull: true,
       },
