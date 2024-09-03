@@ -3,11 +3,21 @@ const fs = require("fs");
 const { Poi, User } = require("../models");
 const upload = require("../middlewares/imageUploads");
 
+// Helper function to delete old image
+const deleteOldImage = (imagePath) => {
+  if (imagePath) {
+    const oldImagePath = path.join(__dirname, "..", imagePath);
+    fs.unlink(oldImagePath, (err) => {
+      if (err) console.error("Error deleting old file:", err);
+    });
+  }
+};
+
 // Create a new POI
 const createPoi = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      return res.status(400).json({ error: err });
+      return res.status(400).json({ error: err.message });
     }
     try {
       const newPoi = await Poi.create({
@@ -50,6 +60,7 @@ const updatePoi = (req, res) => {
     if (err) {
       return res.status(400).json({ error: err.message });
     }
+
     try {
       const poi = await Poi.findByPk(req.params.id);
       if (!poi) {
@@ -59,12 +70,7 @@ const updatePoi = (req, res) => {
       const updatedData = { ...req.body };
 
       if (req.file) {
-        if (poi.imagePath) {
-          const oldImagePath = path.join(__dirname, "..", poi.imagePath);
-          fs.unlink(oldImagePath, (err) => {
-            if (err) console.error("Error deleting old file:", err);
-          });
-        }
+        deleteOldImage(poi.imagePath);
         updatedData.imagePath = `/uploads/${req.file.filename}`;
       } else if (req.body.existingImagePath) {
         updatedData.imagePath = req.body.existingImagePath;
