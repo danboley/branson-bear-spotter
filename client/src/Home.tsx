@@ -1,6 +1,11 @@
 import React from "react";
+import { Poi } from "./types/types";
 
-const Home: React.FC = ({ pois }) => {
+interface HomeProps {
+  pois: Poi[];
+}
+
+const Home: React.FC<HomeProps> = ({ pois }) => {
   return (
     <div>
       <h1>Branson Bear Spotter</h1>

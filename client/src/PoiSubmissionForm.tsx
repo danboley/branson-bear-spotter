@@ -1,8 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { Poi } from "./types/types";
 
-const PoiSubmissionForm: React.FC = ({ addPoi }) => {
+interface PoiSubmissionFormProps {
+  addPoi: (newPoi: Poi) => void;
+}
+
+const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
   const { userId, token } = useAuth();
   const [errors, setErrors] = useState<[] | null>(null);
   const [poi, setPoi] = useState({
