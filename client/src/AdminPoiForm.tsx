@@ -2,8 +2,14 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { Poi } from "./types/types";
 
-const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
+interface AdminPoiFormProps {
+  editPoi: (editedPoi: Poi) => void;
+  deletePoi: (id: string) => void;
+}
+
+const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
   const { userId, token } = useAuth();
   const { id } = useParams();
   const [poi, setPoi] = useState({
@@ -19,7 +25,7 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
     approvalNotes: "",
     userId: "",
   });
-  const [errors, setErrors] = useState<[] | null>(null);
+  const [errors, setErrors] = useState<string[] | null>(null);
 
   // Get Poi by Id
   useEffect(() => {
@@ -35,8 +41,12 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
         console.log("response:", response);
         console.log("response.data:", response.data);
       } catch (error) {
-        setErrors(error);
-        console.error("Error fetching POI:", error);
+        if (axios.isAxiosError(error) && error.message) {
+          setErrors([error.message]);
+        } else {
+          setErrors(["An unexpected error occurred."]);
+        }
+        console.error("Error fetching POIs:", error);
       }
     };
     getPoiById();
@@ -99,8 +109,12 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
       console.log("POI submitted successfully:", response.data);
       window.location.href = "/admin-portal";
     } catch (error) {
-      setErrors(error);
-      console.error("Error submitting POI:", error);
+      if (axios.isAxiosError(error) && error.message) {
+        setErrors([error.message]); // Assuming you want to store error messages
+      } else {
+        setErrors(["An unexpected error occurred."]); // Generic error message
+      }
+      console.error("Error fetching POIs:", error);
     }
   };
 
@@ -116,11 +130,15 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        deletePoi(id);
+        deletePoi(id!);
         window.location.href = "/admin-portal";
       } catch (error) {
-        setErrors(error);
-        console.error("Error deleting POI:", error);
+        if (axios.isAxiosError(error) && error.message) {
+          setErrors([error.message]); // Assuming you want to store error messages
+        } else {
+          setErrors(["An unexpected error occurred."]); // Generic error message
+        }
+        console.error("Error fetching POIs:", error);
       }
     }
   };
@@ -217,4 +235,4 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
   );
 };
 
-export default EditPoiForm;
+export default AdminPoiForm;

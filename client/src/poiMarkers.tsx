@@ -2,13 +2,23 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { AdvancedMarker, useMap, InfoWindow } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { Marker } from "@googlemaps/markerclusterer";
-import { Poi } from "./types/locations";
+import { Poi } from "./types/types";
 
 const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
   const map = useMap();
   const [activeMarker, setActiveMarker] = useState<Poi | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
   const markersRef = useRef<{ [id: string]: Marker }>({});
+  console.log(pois);
+
+  // Transform POI data to include location
+  const transformedPois = pois.map((poi) => {
+    const location = { lat: poi.latitude!, lng: poi.longitude! };
+    return {
+      ...poi,
+      location,
+    };
+  });
 
   // Pan To Click Event with enhanced InfoWindow handling
   const handleClick = useCallback(
@@ -100,7 +110,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
 
   return (
     <>
-      {pois.map((poi) => (
+      {transformedPois.map((poi) => (
         <AdvancedMarker
           key={poi.id}
           position={poi.location}
@@ -124,8 +134,14 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
           <div>
             <h2>Location Info</h2>
             <p>{activeMarker.name}</p>
-            <p>Latitude: {activeMarker.location.lat}</p>
-            <p>Longitude: {activeMarker.location.lng}</p>
+            {/* <p>Latitude: {activeMarker.location?.lat}</p>
+            <p>Longitude: {activeMarker.location?.lng}</p> */}
+            <p>Address: {activeMarker.address}</p>
+            <p>Submitted By: {activeMarker.User.username}</p>
+            <p>Details: {activeMarker.details}</p>
+            {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" && (
+              <img src={`http://localhost:5005${activeMarker.imagePath}`} />
+            )}
           </div>
         </InfoWindow>
       )}

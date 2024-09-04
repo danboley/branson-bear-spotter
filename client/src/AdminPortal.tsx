@@ -1,20 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { AgGridReact } from "ag-grid-react";
+import { ColDef, RowClickedEvent } from "ag-grid-community";
 import "ag-grid-community/styles/ag-grid.css";
 import "ag-grid-community/styles/ag-theme-quartz.css";
-import { locations } from "./types/locations";
 import { Poi } from "./types/types";
 
-const AdminPortal: React.FC = ({ pois }) => {
-  const [rowData, setRowData] = useState([]);
+interface AdminPortalProps {
+  pois: Poi[];
+}
+
+const AdminPortal: React.FC<AdminPortalProps> = ({ pois }) => {
+  const [rowData, setRowData] = useState<Poi[]>([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     setRowData(pois);
-  }, [locations, pois]);
+  }, [pois]);
 
-  const columnDefs = [
+  const columnDefs: ColDef<Poi>[] = [
     { headerName: "ID", field: "id", minWidth: 100, flex: 1 },
     { headerName: "Name", field: "name", minWidth: 100, flex: 1 },
     {
@@ -52,10 +56,10 @@ const AdminPortal: React.FC = ({ pois }) => {
     },
   ];
 
-  function handleRowClicked(e: { data: Poi }) {
-    const poiId = e.data.id;
+  function handleRowClicked(e: RowClickedEvent<Poi, any>) {
+    const poiId = e.data!.id;
     navigate(`/pois/edit/${poiId}`);
-  };
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4">
