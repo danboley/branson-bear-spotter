@@ -3,7 +3,8 @@ import React, { createContext, useState, useContext, ReactNode } from "react";
 interface AuthContextType {
   token: string | null;
   userId: string | null;
-  login: (data: { token: string; userId: string }) => void;
+  isAdmin: boolean;
+  login: (data: { token: string; userId: string; isAdmin: boolean }) => void;
   logout: () => void;
 }
 
@@ -18,24 +19,37 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
   const [userId, setUserId] = useState<string | null>(
     localStorage.getItem("userId")
   );
+  const [isAdmin, setIsAdmin] = useState<boolean>(() => {
+    try {
+      const storedIsAdmin = localStorage.getItem("isAdmin");
+      return storedIsAdmin ? JSON.parse(storedIsAdmin) : false;
+    } catch (error) {
+      console.error("Failed to parse isAdmin from localStorage:", error);
+      return false;
+    }
+  });
 
-  const login = (data: { token: string; userId: string }) => {
+  const login = (data: { token: string; userId: string; isAdmin: boolean }) => {
     localStorage.setItem("token", data.token);
     localStorage.setItem("userId", data.userId);
+    localStorage.setItem("isAdmin", JSON.stringify(data.isAdmin));
     setToken(data.token);
     setUserId(data.userId);
+    setIsAdmin(data.isAdmin);
   };
 
   const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("isAdmin");
     setToken(null);
     setUserId(null);
+    setIsAdmin(false);
     console.log("User logged out");
   };
 
   return (
-    <AuthContext.Provider value={{ token, userId, login, logout }}>
+    <AuthContext.Provider value={{ token, userId, isAdmin, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

@@ -15,8 +15,8 @@ const Login: React.FC = () => {
         "http://localhost:5005/api/auth/login",
         { email, password }
       );
-      const userData = response.data;
-      login({ token: userData.token, userId: userData.user.id });
+      const { token, user } = response.data;
+      login({ token, userId: user.id, isAdmin: user.isAdmin });
       console.log("Login successful");
       window.location.href = "/home";
     } catch (error) {

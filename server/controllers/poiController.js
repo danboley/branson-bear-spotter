@@ -1,11 +1,23 @@
+const path = require("path");
+const fs = require("fs");
 const { Poi, User } = require("../models");
 const upload = require("../middlewares/imageUploads");
+
+// Helper function to delete old image
+const deleteOldImage = (imagePath) => {
+  if (imagePath) {
+    const oldImagePath = path.join(__dirname, "..", imagePath);
+    fs.unlink(oldImagePath, (err) => {
+      if (err) console.error("Error deleting old file:", err);
+    });
+  }
+};
 
 // Create a new POI
 const createPoi = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      return res.status(400).json({ error: err });
+      return res.status(400).json({ error: err.message });
     }
     try {
       const newPoi = await Poi.create({
@@ -43,19 +55,38 @@ const getPoiById = async (req, res) => {
 };
 
 // Update a POI
-const updatePoi = async (req, res) => {
-  try {
-    const [updated] = await Poi.update(req.body, {
-      where: { id: req.params.id },
-    });
-    if (!updated) {
-      return res.status(404).json({ error: "POI not found" });
+const updatePoi = (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
     }
-    const updatedPoi = await Poi.findByPk(req.params.id, { include: User });
-    res.status(200).json(updatedPoi);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+
+    try {
+      const poi = await Poi.findByPk(req.params.id);
+      if (!poi) {
+        return res.status(404).json({ error: "POI not found" });
+      }
+
+      const updatedData = { ...req.body };
+
+      if (req.file) {
+        deleteOldImage(poi.imagePath);
+        updatedData.imagePath = `/uploads/${req.file.filename}`;
+      } else if (req.body.existingImagePath) {
+        updatedData.imagePath = req.body.existingImagePath;
+      }
+
+      await Poi.update(updatedData, {
+        where: { id: req.params.id },
+      });
+
+      const updatedPoi = await Poi.findByPk(req.params.id);
+      res.status(200).json(updatedPoi);
+    } catch (error) {
+      console.error("Update error:", error);
+      res.status(400).json({ error: error.message });
+    }
+  });
 };
 
 // Delete a POI

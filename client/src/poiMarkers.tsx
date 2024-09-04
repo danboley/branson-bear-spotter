@@ -2,21 +2,20 @@ import React, { useState, useRef, useEffect, useCallback } from "react";
 import { AdvancedMarker, useMap, InfoWindow } from "@vis.gl/react-google-maps";
 import { MarkerClusterer } from "@googlemaps/markerclusterer";
 import type { Marker } from "@googlemaps/markerclusterer";
-
-type Poi = { key: string; name: string; location: google.maps.LatLngLiteral };
+import { Poi } from "./types/locations";
 
 const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
   const map = useMap();
   const [activeMarker, setActiveMarker] = useState<Poi | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
-  const markersRef = useRef<{ [key: string]: Marker }>({});
+  const markersRef = useRef<{ [id: string]: Marker }>({});
 
   // Pan To Click Event with enhanced InfoWindow handling
   const handleClick = useCallback(
     (ev: google.maps.MapMouseEvent, poi: Poi) => {
       if (!map || !ev.latLng) return;
 
-      if (activeMarker && activeMarker.key === poi.key) return;
+      if (activeMarker && activeMarker.id === poi.id) return;
 
       map.panTo(ev.latLng);
 
@@ -81,11 +80,11 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
   }, [markersRef.current]);
 
   // Manage marker refs
-  const setMarkerRef = useCallback((marker: Marker | null, key: string) => {
+  const setMarkerRef = useCallback((marker: Marker | null, id: string) => {
     if (marker) {
-      markersRef.current[key] = marker;
+      markersRef.current[id] = marker;
     } else {
-      delete markersRef.current[key];
+      delete markersRef.current[id];
     }
 
     // Ensure clusterer is updated
@@ -103,9 +102,9 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
     <>
       {pois.map((poi) => (
         <AdvancedMarker
-          key={poi.key}
+          key={poi.id}
           position={poi.location}
-          ref={(marker) => setMarkerRef(marker, poi.key)}
+          ref={(marker) => setMarkerRef(marker, poi.id)}
           clickable={true}
           onClick={(ev) => handleClick(ev, poi)}
         >
