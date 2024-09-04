@@ -110,9 +110,9 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
       window.location.href = "/admin-portal";
     } catch (error) {
       if (axios.isAxiosError(error) && error.message) {
-        setErrors([error.message]); // Assuming you want to store error messages
+        setErrors([error.message]);
       } else {
-        setErrors(["An unexpected error occurred."]); // Generic error message
+        setErrors(["An unexpected error occurred."]);
       }
       console.error("Error fetching POIs:", error);
     }
