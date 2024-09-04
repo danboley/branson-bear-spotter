@@ -2,7 +2,7 @@ import { Map, MapCameraChangedEvent } from "@vis.gl/react-google-maps";
 import PoiMarkers from "./poiMarkers";
 import { locations } from "./types/locations";
 
-const MapContainer = () => (
+const MapContainer: React.FC  = () => (
   <Map
     defaultZoom={13}
     defaultCenter={{ lat: 40.71300493693606, lng: -74.0020943565909 }}

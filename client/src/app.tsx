@@ -4,24 +4,58 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { APIProvider } from "@vis.gl/react-google-maps";
 import { AuthProvider } from "./AuthContext";
 import MapContainer from "./mapContainer";
-import PoiForm from "./PoiForm";
+import PoiForm from "./PoiSubmissionForm";
 import Home from "./Home";
 import Register from "./Register";
 import Login from "./Login";
 import NavBar from "./NavBar";
+import AdminPortal from "./AdminPortal";
+import EditPoiForm from "./EditPoiForm";
+import PoiDetails from "./PoiDetails";
+import { Poi } from "./types/types";
+import axios from "axios";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
-const App = () => {
-  const [backendData, setBackendData] = useState([{}]);
-  console.log(backendData);
+const App: React.FC = () => {
+  const [pois, setPois] = useState([{}]);
+  const [errors, setErrors] = useState<[] | null>(null);
+
+  console.log(pois);
+
+  // Get all Pois
   useEffect(() => {
-    fetch("http://localhost:5005/api/users")
-      .then((res) => res.json())
-      .then((data) => {
-        setBackendData(data);
-      });
+    const getPois = async () => {
+      try {
+        const response = await axios.get("http://localhost:5005/api/pois");
+        setPois(response.data);
+      } catch (error) {
+        setErrors(error);
+        console.error("Error fetching POIs:", error);
+      }
+    };
+    getPois();
   }, []);
+
+  // Add Poi Callback
+  function addPoi(newPoi: Poi[]) {
+    setPois((prevPois) => [...prevPois, newPoi]);
+  }
+
+  // Edit Poi Callback
+  function editPoi(editedPoi: Poi[]) {
+    const updatedPois = pois?.map((poi) =>
+      poi?.id === editedPoi?.id ? editedPoi : poi
+    );
+    setPois(updatedPois);
+  }
+
+  // Delete Poi Callback
+  function deletePoi(id) {
+    const refinedPois = pois?.filter((poi) => poi.id !== id);
+    setPois(refinedPois);
+  }
+
   return (
     <APIProvider
       apiKey={apiKey}
@@ -31,12 +65,18 @@ const App = () => {
         <Router>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Home backendData={backendData} />} />
-            <Route path="/home" element={<Home backendData={backendData} />} />
+            <Route path="/" element={<Home pois={pois} />} />
+            <Route path="/home" element={<Home pois={pois} />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/map" element={<MapContainer />} />
-            <Route path="/submissions" element={<PoiForm />} />
+            <Route path="/submissions" element={<PoiForm addPoi={addPoi} />} />
+            <Route path="/admin-portal" element={<AdminPortal pois={pois} />} />
+            <Route
+              path="/pois/edit/:id"
+              element={<EditPoiForm editPoi={editPoi} deletePoi={deletePoi} />}
+            />
+            <Route path="/pois/:id" element={<PoiDetails />} />
           </Routes>
         </Router>
       </AuthProvider>
