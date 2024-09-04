@@ -106,17 +106,22 @@ const EditPoiForm: React.FC = ({ deletePoi, editPoi }) => {
 
   // Handle POI deletion
   const handleDelete = async () => {
-    try {
-      await axios.delete(`http://localhost:5005/api/pois/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      deletePoi(id);
-      window.location.href = "/admin-portal";
-    } catch (error) {
-      setErrors(error);
-      console.error("Error deleting POI:", error);
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this POI? This action cannot be undone. As an alternative, consider changing the approval status."
+    );
+    if (isConfirmed) {
+      try {
+        await axios.delete(`http://localhost:5005/api/pois/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        deletePoi(id);
+        window.location.href = "/admin-portal";
+      } catch (error) {
+        setErrors(error);
+        console.error("Error deleting POI:", error);
+      }
     }
   };
 
