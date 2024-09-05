@@ -2,8 +2,14 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Poi } from "./types/types";
+import PoiCard from "./PoiCard";
 
-const UserProfile: React.FC = () => {
+interface UserProfileProps {
+  pois: Poi[];
+}
+
+const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const { userId, token, logout } = useAuth();
   const [user, setUser] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -45,6 +51,8 @@ const UserProfile: React.FC = () => {
 
     getUser();
   }, [userId, token]);
+
+  const userPois = pois.filter((poi) => poi.userId === userId);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -122,6 +130,13 @@ const UserProfile: React.FC = () => {
           <button onClick={handleEditClick}>Edit</button>
 
           <button onClick={handleDeleteAccount}>Delete Account</button>
+
+          <h3 className="mt-4">Your Submissions</h3>
+          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {userPois.map((poi) => (
+              <PoiCard key={poi.id} poi={poi} />
+            ))}
+          </div>
         </>
       ) : (
         <>

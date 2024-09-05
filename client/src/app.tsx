@@ -82,7 +82,7 @@ const App: React.FC = () => {
               element={<AdminPoiForm editPoi={editPoi} deletePoi={deletePoi} />}
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
-            <Route path="/profile" element={<UserProfile />} />
+            <Route path="/profile" element={<UserProfile pois={pois} />} />
           </Routes>
         </Router>
       </AuthProvider>
