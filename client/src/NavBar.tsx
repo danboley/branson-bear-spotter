@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 const NavBar: React.FC = () => {
-  const { token, logout, isAdmin } = useAuth();
+  const { token, userId, logout, isAdmin } = useAuth();
 
   return (
     <nav className="bg-gray-800 p-4">
@@ -21,6 +21,11 @@ const NavBar: React.FC = () => {
           {isAdmin && (
             <Link to="/admin-portal" className="mr-4 text-yellow-500">
               Admin Portal
+            </Link>
+          )}
+          {token && userId && (
+            <Link to={`/profile/${userId}`} className="mr-4 text-white">
+              My Profile
             </Link>
           )}
         </div>

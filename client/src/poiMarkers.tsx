@@ -132,13 +132,14 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
         >
           <div>
             <h2>Location Info</h2>
+            <p>{activeMarker.name}</p>
             <a href={`http://localhost:5173/pois/${activeMarker.id}`}>
-              <p>{activeMarker.name}</p>
+              <p>More Details</p>
             </a>
             {/* <p>Latitude: {activeMarker.location?.lat}</p>
             <p>Longitude: {activeMarker.location?.lng}</p> */}
-            <p>Address: {activeMarker.address}</p>
-            <p>Submitted By: {activeMarker.User.username}</p>
+            {/* <p>Address: {activeMarker.address}</p>
+            <p>Submitted By: {activeMarker.User.username}</p> */}
             <p>Details: {activeMarker.details}</p>
             {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" && (
               <img src={`http://localhost:5005${activeMarker.imagePath}`} />
