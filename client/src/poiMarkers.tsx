@@ -9,7 +9,6 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
   const [activeMarker, setActiveMarker] = useState<Poi | null>(null);
   const clusterer = useRef<MarkerClusterer | null>(null);
   const markersRef = useRef<{ [id: string]: Marker }>({});
-  console.log(pois);
 
   // Transform POI data to include location
   const transformedPois = pois.map((poi) => {
@@ -133,7 +132,9 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
         >
           <div>
             <h2>Location Info</h2>
-            <p>{activeMarker.name}</p>
+            <a href={`http://localhost:5173/pois/${activeMarker.id}`}>
+              <p>{activeMarker.name}</p>
+            </a>
             {/* <p>Latitude: {activeMarker.location?.lat}</p>
             <p>Longitude: {activeMarker.location?.lng}</p> */}
             <p>Address: {activeMarker.address}</p>
