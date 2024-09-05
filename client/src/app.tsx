@@ -12,6 +12,7 @@ import NavBar from "./NavBar";
 import AdminPortal from "./AdminPortal";
 import AdminPoiForm from "./AdminPoiForm";
 import PoiDetails from "./PoiDetails";
+import UserProfile from "./UserProfile";
 import { Poi } from "./types/types";
 import axios from "axios";
 
@@ -81,6 +82,7 @@ const App: React.FC = () => {
               element={<AdminPoiForm editPoi={editPoi} deletePoi={deletePoi} />}
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
+            <Route path="/profile" element={<UserProfile />} />
           </Routes>
         </Router>
       </AuthProvider>

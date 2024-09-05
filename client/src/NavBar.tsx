@@ -23,6 +23,11 @@ const NavBar: React.FC = () => {
               Admin Portal
             </Link>
           )}
+          {token && (
+            <Link to="/profile" className="mr-4 text-white">
+              My Profile
+            </Link>
+          )}
         </div>
         <div>
           {token ? (
