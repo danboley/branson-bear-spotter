@@ -5,7 +5,7 @@ import { Poi } from "./types/types";
 
 const PoiDetails: React.FC = () => {
   const { id } = useParams();
-  const [poi, setPoi] = useState<Poi | null>(null)
+  const [poi, setPoi] = useState<Poi | null>(null);
   const [errors, setErrors] = useState<string[] | null>(null);
 
   // Get Poi by Id
@@ -38,7 +38,12 @@ const PoiDetails: React.FC = () => {
       <p>{poi?.name}</p>
       <img src={`http://localhost:5005${poi?.imagePath}`}></img>
       <p>{poi?.address}</p>
-      <p>Submitted By: {poi?.User?.username}</p>
+      <div>
+        <p>Submitted By:</p>
+        <a href={`http://localhost:5173/profile/${poi?.User?.id}`}>
+          <p>{poi?.User?.username}</p>{" "}
+        </a>
+      </div>
     </div>
   );
 };

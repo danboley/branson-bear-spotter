@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Poi } from "./types/types";
 import PoiCard from "./PoiCard";
 
@@ -10,7 +10,7 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
-  const { userId, token, logout } = useAuth();
+  const { userId: loggedInUserId, token, logout } = useAuth();
   const [user, setUser] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [formData, setFormData] = useState({
@@ -21,14 +21,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     profilePicture: "",
   });
 
+  const { id: profileId } = useParams();
   const navigate = useNavigate();
+  const isOwnProfile = loggedInUserId === profileId;
 
   useEffect(() => {
     const getUser = async () => {
-      if (userId && token) {
+      if (profileId && token) {
         try {
           const response = await axios.get(
-            `http://localhost:5005/api/users/${userId}`,
+            `http://localhost:5005/api/users/${profileId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -50,9 +52,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     };
 
     getUser();
-  }, [userId, token]);
-
-  const userPois = pois.filter((poi) => poi.userId === userId);
+  }, [profileId, token]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -68,11 +68,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.put(`http://localhost:5005/api/users/${userId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await axios.put(
+        `http://localhost:5005/api/users/${loggedInUserId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       setIsEditing(false);
       setUser(formData);
     } catch (error) {
@@ -87,11 +91,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
 
     if (isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5005/api/users/${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.delete(
+          `http://localhost:5005/api/users/${loggedInUserId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         logout();
         navigate("/");
       } catch (error) {
@@ -103,6 +110,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   if (!user) {
     return <div>Loading...</div>;
   }
+
+  const userPois = pois.filter((poi) => poi.userId === profileId);
 
   return (
     <div>
@@ -127,11 +136,17 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <img src={user.profilePicture} alt="Profile" />
             </div>
           )}
-          <button onClick={handleEditClick}>Edit</button>
 
-          <button onClick={handleDeleteAccount}>Delete Account</button>
+          {isOwnProfile && (
+            <>
+              <button onClick={handleEditClick}>Edit</button>
+              <button onClick={handleDeleteAccount}>Delete Account</button>
+            </>
+          )}
 
-          <h3 className="mt-4">Your Submissions</h3>
+          <h3 className="mt-4">
+            Submissions by {user.username || "this user"}
+          </h3>
           <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {userPois.map((poi) => (
               <PoiCard key={poi.id} poi={poi} />
