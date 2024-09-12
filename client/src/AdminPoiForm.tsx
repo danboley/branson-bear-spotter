@@ -93,7 +93,6 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
       data.append("imagePath", poi.existingImagePath);
     }
     try {
-      console.log(data);
       const response = await axios.put(
         `http://localhost:5005/api/pois/${id}`,
         data,
@@ -105,7 +104,6 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
         }
       );
       editPoi(response.data);
-      console.log("POI submitted successfully:", response.data);
       window.location.href = "/admin-portal";
     } catch (error: any) {
       setErrors(error.response.data.error);

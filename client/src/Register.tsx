@@ -57,7 +57,6 @@ const Register: React.FC = () => {
       const { token, user } = loginResponse.data;
       login({ token, userId: user.id, isAdmin: user.isAdmin });
       window.location.href = "/home";
-      console.log("Registration successful");
     } catch (error: any) {
       setErrors(error.response.data.error);
       console.error("Error registering user:", error);

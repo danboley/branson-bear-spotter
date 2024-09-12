@@ -75,7 +75,6 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
         }
       );
       addPoi(response.data);
-      console.log("POI submitted successfully:", response.data);
       window.location.href = "/map";
     } catch (error: any) {
       setErrors(error.response.data.error);

@@ -19,7 +19,6 @@ const Login: React.FC = () => {
       );
       const { token, user } = response.data;
       login({ token, userId: user.id, isAdmin: user.isAdmin });
-      console.log("Login successful");
       window.location.href = "/home";
     } catch (error: any) {
       setErrors(error.response.data.error);
