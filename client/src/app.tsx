@@ -13,16 +13,31 @@ import AdminPortal from "./AdminPortal";
 import AdminPoiForm from "./AdminPoiForm";
 import PoiDetails from "./PoiDetails";
 import UserProfile from "./UserProfile";
+import Footer from "./Footer";
 import { Poi } from "./types/types";
 import axios from "axios";
+import "./index.css";
+import NotFound from "./NotFound";
+import About from "./About";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const App: React.FC = () => {
   const [pois, setPois] = useState<Poi[]>([]);
   const [errors, setErrors] = useState<string[] | null>(null);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
-  console.log(pois);
+  useEffect(() => {
+    const handleWindowResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
 
   // Get all Pois
   useEffect(() => {
@@ -70,8 +85,9 @@ const App: React.FC = () => {
         <Router>
           <NavBar />
           <Routes>
-            <Route path="/" element={<Home pois={pois} />} />
-            <Route path="/home" element={<Home pois={pois} />} />
+            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="/about" element={<About />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/map" element={<MapContainer pois={pois} />} />
@@ -83,7 +99,9 @@ const App: React.FC = () => {
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
+          <Footer windowWidth={windowWidth} />
         </Router>
       </AuthProvider>
     </APIProvider>

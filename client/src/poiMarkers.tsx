@@ -131,9 +131,8 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
           pixelOffset={[0, -40]}
         >
           <div>
-            <h2>Location Info</h2>
-            <p>{activeMarker.name}</p>
-            <a href={`http://localhost:5173/pois/${activeMarker.id}`}>
+            <p className="text-xl font-bold">{activeMarker.name}</p>
+            <a className="text-main" href={`http://localhost:5173/pois/${activeMarker.id}`}>
               <p>More Details</p>
             </a>
             {/* <p>Latitude: {activeMarker.location?.lat}</p>
@@ -141,9 +140,9 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
             {/* <p>Address: {activeMarker.address}</p>
             <p>Submitted By: {activeMarker.User.username}</p> */}
             <p>Details: {activeMarker.details}</p>
-            {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" && (
-              <img src={`http://localhost:5005${activeMarker.imagePath}`} />
-            )}
+            {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" ? (
+              <img className="w-48 h-auto"src={`http://localhost:5005${activeMarker.imagePath}`} />
+            ) : (<img className="w-48 h-auto" src={`public/bransonbear.png`} />)}
           </div>
         </InfoWindow>
       )}
