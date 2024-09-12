@@ -14,12 +14,12 @@ const About: React.FC = () => {
 
   return (
     <div className="p-4 bg-main min-h-screen flex flex-col items-center">
-      <div className="max-w-screen-xl">
+      <div className="max-w-screen-xl w-full">
         <h1 className="font-bold text-center text-xl md:text-3xl text-text-light">
           Welcome to the Branson Bear Tracker
         </h1>
         <h2 className="text-lg text-center py-4 px-8 text-text-light">
-          Here are some projects conceived & created by the Shredderz.
+          This tracker was created for the sole purpose of tracking the elusive Branson Bear in the wild.
         </h2>
 
         <p className="text-lg text-center py-4 px-8 text-text-light">
@@ -29,7 +29,7 @@ const About: React.FC = () => {
           {faqs.map((faq, index) => (
             <div
               key={index}
-              className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-secondary"
+              className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-secondary w-full max-w-3xl"
             >
               <button
                 type="button"
@@ -47,10 +47,8 @@ const About: React.FC = () => {
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
-                    className={`w-6 h-6 black ${
-                      isOpen[index]
-                        ? "transform rotate-0"
-                        : "transform rotate-180"
+                    className={`w-6 h-6 transform transition-transform ${
+                      isOpen[index] ? "rotate-180" : "rotate-0"
                     }`}
                   >
                     <path

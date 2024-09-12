@@ -46,7 +46,7 @@ const Home: React.FC = () => {
           />
         </div>
       </div>
-      <div className="text-center mt-8 px-4 max-w-8xl">
+      <div className="text-center mt-8 px-4 max-w-8xl border-t-2 py-8">
         <p className="text-lg font-semibold mb-2">
           Looking for even more Branson Bear content?
         </p>
