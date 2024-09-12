@@ -19,40 +19,45 @@ const AdminPortal: React.FC<AdminPortalProps> = ({ pois }) => {
   }, [pois]);
 
   const columnDefs: ColDef<Poi>[] = [
-    { headerName: "ID", field: "id", minWidth: 100, flex: 1 },
-    { headerName: "Name", field: "name", minWidth: 100, flex: 1 },
+    { headerName: "ID", field: "id", minWidth: 100, flex: 1, filter: true },
+    { headerName: "Name", field: "name", minWidth: 100, flex: 1, filter: true },
     {
       headerName: "Address",
       field: "address",
       minWidth: 100,
       flex: 1,
+      filter: true
     },
-    { headerName: "Lat", field: "latitude", minWidth: 100, flex: 1 },
-    { headerName: "Long", field: "longitude", minWidth: 100, flex: 1 },
-    { headerName: "Details", field: "details", minWidth: 200, flex: 3 },
+    { headerName: "Lat", field: "latitude", minWidth: 100, flex: 1, filter: true },
+    { headerName: "Long", field: "longitude", minWidth: 100, flex: 1, filter: true },
+    { headerName: "Details", field: "details", minWidth: 200, flex: 3, filter: true },
     {
       headerName: "Approval Status",
       field: "approvalStatus",
       minWidth: 100,
       flex: 1,
+      filter: true
     },
     {
       headerName: "Approval Notes",
       field: "approvalNotes",
       minWidth: 200,
       flex: 3,
+      filter: true
     },
     {
       headerName: "Image",
       field: "imagePath",
       minWidth: 200,
       flex: 3,
+      filter: true
     },
     {
       headerName: "Submitted By",
       field: "userId",
       minWidth: 100,
       flex: 1,
+      filter: true
     },
   ];
 
@@ -62,13 +67,13 @@ const AdminPortal: React.FC<AdminPortalProps> = ({ pois }) => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen px-4">
-      <div className="p-4 border-2 border-white w-full max-w-6xl">
-        <h2 className="text-white px-3 pb-3 rounded-md text-sm font-medium">
-          Manage POI Submissions
+    <div className="flex bg-main items-center justify-center min-h-screen px-4">
+      <div className="p-4 border-2 border-white rounded w-full max-w-6xl">
+        <h2 className="text-white px-3 pb-3 rounded-md font-medium">
+          Manage Submissions
         </h2>
         <div
-          className="ag-theme-alpine"
+          className="ag-theme-quartz"
           style={{ height: "400px", width: "100%" }}
         >
           <AgGridReact

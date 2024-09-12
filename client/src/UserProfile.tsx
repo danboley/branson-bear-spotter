@@ -114,10 +114,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const userPois = pois.filter((poi) => poi.userId === profileId);
 
   return (
-    <div>
+    <div className="p-4 bg-main text-text-light min-h-screen flex flex-col items-center">
       {!isEditing ? (
         <>
-          <h2>Profile Information</h2>
+          <h2 className="text-2xl font-bold mb-4">{user.username}'s Profile</h2>
           <p>
             <strong>First Name:</strong> {user.firstName}
           </p>
@@ -131,23 +131,31 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
             <strong>Location:</strong> {user.location || ""}
           </p>
           {user.profilePicture && (
-            <div>
+            <div className="mb-4">
               <strong>Profile Picture:</strong>
-              <img src={user.profilePicture} alt="Profile" />
+              <img
+                src={user.profilePicture}
+                alt="Profile"
+                className="mt-2 w-32 h-32 object-cover rounded-full"
+              />
             </div>
           )}
 
           {isOwnProfile && (
-            <>
-              <button onClick={handleEditClick}>Edit</button>
-              <button onClick={handleDeleteAccount}>Delete Account</button>
-            </>
+            <div className="my-2 space-x-4">
+              <button
+                onClick={handleEditClick}
+                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Edit Profile
+              </button>
+            </div>
           )}
 
-          <h3 className="mt-4">
-            Submissions by {user.username || "this user"}
+          <h3 className="text-xl font-semibold mt-2 mb-4">
+            Submissions by {user.username || "this user"}:
           </h3>
-          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {userPois.map((poi) => (
               <PoiCard key={poi.id} poi={poi} />
             ))}
@@ -155,57 +163,92 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         </>
       ) : (
         <>
-          <h2>Edit Profile Information</h2>
-          <form onSubmit={handleSubmit}>
+          <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
+          <form
+            onSubmit={handleSubmit}
+            className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md"
+          >
             <div className="mb-4">
-              <label>First Name</label>
+              <label className="block text-lg font-semibold mb-2">
+                First Name
+              </label>
               <input
                 type="text"
                 name="firstName"
                 value={formData.firstName}
                 onChange={handleFormChange}
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
-            <div>
-              <label>Last Name</label>
+            <div className="mb-4">
+              <label className="block text-lg font-semibold mb-2">
+                Last Name
+              </label>
               <input
                 type="text"
                 name="lastName"
                 value={formData.lastName}
                 onChange={handleFormChange}
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
-            <div>
-              <label>Username</label>
+            <div className="mb-4">
+              <label className="block text-lg font-semibold mb-2">
+                Username
+              </label>
               <input
                 type="text"
                 name="username"
                 value={formData.username}
                 onChange={handleFormChange}
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
-            <div>
-              <label>Location</label>
+            <div className="mb-4">
+              <label className="block text-lg font-semibold mb-2">
+                Location
+              </label>
               <input
                 type="text"
                 name="location"
                 value={formData.location}
                 onChange={handleFormChange}
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
             <div className="mb-4">
-              <label>Profile Picture URL</label>
+              <label className="block text-lg font-semibold mb-2">
+                Profile Picture URL
+              </label>
               <input
                 type="text"
                 name="profilePicture"
                 value={formData.profilePicture}
                 onChange={handleFormChange}
+                className="w-full p-2 border border-gray-300 rounded"
               />
             </div>
-            <button type="submit">Save</button>
-            <button type="button" onClick={() => setIsEditing(false)}>
-              Cancel
+            <div className="space-x-4">
+            <button
+              type="submit"
+              className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+            >
+              Save Changes
             </button>
+            <button
+              type="button"
+              onClick={() => setIsEditing(false)}
+              className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+            >
+              Cancel Changes
+            </button>
+            <button
+              onClick={handleDeleteAccount}
+              className="bg-red-500 text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+            >
+              Delete Account
+            </button>
+            </div>
           </form>
         </>
       )}

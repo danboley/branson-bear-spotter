@@ -18,8 +18,6 @@ const PoiDetails: React.FC = () => {
         setPoi({
           ...response.data,
         });
-        console.log("response:", response);
-        console.log("response.data:", response.data);
       } catch (error) {
         if (axios.isAxiosError(error) && error.message) {
           setErrors([error.message]);

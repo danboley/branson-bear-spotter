@@ -45,7 +45,6 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     setToken(null);
     setUserId(null);
     setIsAdmin(false);
-    console.log("User logged out");
   };
 
   return (

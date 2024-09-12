@@ -9,7 +9,7 @@ interface PoiSubmissionFormProps {
 
 const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
   const { userId, token } = useAuth();
-  const [errors, setErrors] = useState<[] | null>(null);
+  const [errors, setErrors] = useState<string[] | null>(null);
   const [poi, setPoi] = useState({
     name: "",
     address: "",
@@ -19,7 +19,9 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
     imagePath: null as File | null,
     approvalNotes: "",
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
+  // Handle input changes
   const handleChange = (
     e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -29,15 +31,19 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
     });
   };
 
+  // Handle image changes
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
       setPoi({
         ...poi,
-        imagePath: e.target.files[0],
+        imagePath: file,
       });
+      setImagePreview(URL.createObjectURL(file));
     }
   };
 
+  // Handle Poi submission
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
@@ -54,7 +60,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
     if (userId) {
       data.append("userId", userId);
     } else {
-      console.error("User ID is missing");
+      console.error("Must be a registered user.");
       return;
     }
     try {
@@ -69,71 +75,118 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
         }
       );
       addPoi(response.data);
-      console.log("POI submitted successfully:", response.data);
       window.location.href = "/map";
     } catch (error: any) {
-      setErrors(error);
+      setErrors(error.response.data.error);
       console.error("Error submitting POI:", error);
     }
   };
 
+  // Handle edit cancellation
+  const cancelEdit = () => {
+    window.location.href = "/map";
+  };
+
   return (
-    <>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Location Name:</label>
+    <div className="p-4 bg-main min-h-screen flex flex-col items-center">
+      <h1 className="text-2xl font-bold mb-4 text-text-light">
+        Report a Branson Bear Sighting!
+      </h1>
+      <form
+        className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md"
+        onSubmit={handleSubmit}
+      >
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">
+            Location Name:
+          </label>
           <input
             type="text"
             name="name"
             value={poi.name}
             onChange={handleChange}
             required
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div>
-          <label>Address:</label>
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">Address:</label>
           <input
             type="text"
             name="address"
             value={poi.address}
             onChange={handleChange}
             required
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div>
-          <label>Details:</label>
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">Details:</label>
           <textarea
             name="details"
             value={poi.details}
             onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div>
-          <label>Latitude:</label>
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">Latitude:</label>
           <input
             type="number"
             name="latitude"
             value={poi.latitude}
             onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div>
-          <label>Longitude:</label>
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">Longitude:</label>
           <input
             type="number"
             name="longitude"
             value={poi.longitude}
             onChange={handleChange}
+            className="w-full p-2 border border-gray-300 rounded"
           />
         </div>
-        <div>
-          <label>Image:</label>
-          <input type="file" name="imagePath" onChange={handleFileChange} />
+        <div className="mb-4">
+          <label className="block text-lg font-semibold mb-2">Image:</label>
+          <input
+            type="file"
+            name="imagePath"
+            className="w-full p-2 border border-gray-300 rounded"
+            onChange={handleFileChange}
+          />
+          {imagePreview && (
+            <div className="mt-4">
+              <img
+                src={imagePreview}
+                alt="Image preview"
+                className="w-full h-auto border border-gray-300 rounded"
+              />
+            </div>
+          )}
         </div>
-        <button type="submit">Submit</button>
+        <div className="space-x-4">
+          <button
+            type="submit"
+            className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+          >
+            Submit
+          </button>
+          <button
+            type="button"
+            onClick={() => cancelEdit()}
+            className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+          >
+            Cancel Changes
+          </button>
+        </div>
       </form>
-      {errors && errors.length > 0 ? <div>{errors}</div> : null}
-    </>
+      {errors && errors.length > 0 ? (
+        <div className="mt-4 text-red-500 bg-white rounded p-2">{errors}</div>
+      ) : null}
+    </div>
   );
 };
 
