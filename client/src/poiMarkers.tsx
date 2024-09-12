@@ -11,7 +11,9 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
   const markersRef = useRef<{ [id: string]: Marker }>({});
 
   // Transform POI data to include location
-  const transformedPois = pois.map((poi) => {
+  const transformedPois = pois
+  .filter(poi => poi.approvalStatus === 'active')
+  .map((poi) => {
     const location = { lat: poi.latitude!, lng: poi.longitude! };
     return {
       ...poi,
