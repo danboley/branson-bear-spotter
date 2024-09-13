@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [errors, setErrors] = useState<string[] | null>(null);
 
   // Handle login
   const handleSubmit = async (e: React.FormEvent) => {
@@ -21,8 +22,7 @@ const Login: React.FC = () => {
       login({ token, userId: user.id, isAdmin: user.isAdmin });
       window.location.href = "/home";
     } catch (error: any) {
-      setErrors(error.response.data.error);
-      console.error("Error logging in:", error);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -58,9 +58,6 @@ const Login: React.FC = () => {
           Login
         </button>
       </form>
-      {errors && errors.length > 0 ? (
-        <div className="mt-4 text-red-500 bg-white rounded p-2">{errors}</div>
-      ) : null}
       <div className="mt-4 text-center">
         <p className="text-text-light mb-2">New User?</p>
         <a href="/register">
