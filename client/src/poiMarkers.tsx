@@ -12,14 +12,14 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
 
   // Transform POI data to include location
   const transformedPois = pois
-  .filter(poi => poi.approvalStatus === 'active')
-  .map((poi) => {
-    const location = { lat: poi.latitude!, lng: poi.longitude! };
-    return {
-      ...poi,
-      location,
-    };
-  });
+    .filter((poi) => poi.approvalStatus === "active")
+    .map((poi) => {
+      const location = { lat: poi.latitude!, lng: poi.longitude! };
+      return {
+        ...poi,
+        location,
+      };
+    });
 
   // Pan To Click Event with enhanced InfoWindow handling
   const handleClick = useCallback(
@@ -131,21 +131,39 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
           position={activeMarker.location}
           onCloseClick={() => setActiveMarker(null)}
           pixelOffset={[0, -40]}
+          className="max-w-72 items-center text-center"
         >
-          <div>
-            <p className="text-xl font-bold">{activeMarker.name}</p>
-            <a className="text-main" href={`http://localhost:5173/pois/${activeMarker.id}`}>
-              <p>More Details</p>
+          {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" ? (
+            <a
+              className="text-main mb-2"
+              href={`http://localhost:5173/pois/${activeMarker.id}`}
+            >
+              <img
+                className="w-full h-auto mb-2"
+                src={`http://localhost:5005${activeMarker.imagePath}`}
+              />
             </a>
-            {/* <p>Latitude: {activeMarker.location?.lat}</p>
-            <p>Longitude: {activeMarker.location?.lng}</p> */}
-            {/* <p>Address: {activeMarker.address}</p>
-            <p>Submitted By: {activeMarker.User.username}</p> */}
-            <p>Details: {activeMarker.details}</p>
-            {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" ? (
-              <img className="w-48 h-auto"src={`http://localhost:5005${activeMarker.imagePath}`} />
-            ) : (<img className="w-48 h-auto" src={`public/bransonbear.png`} />)}
-          </div>
+          ) : (
+            <a
+              className="text-main mb-2"
+              href={`http://localhost:5173/pois/${activeMarker.id}`}
+            >
+              <img
+                className="w-full h-auto mb-2"
+                src={`public/bransonbear.png`}
+              />
+            </a>
+          )}
+
+          <a
+            className="text-main mb-2"
+            href={`http://localhost:5173/pois/${activeMarker.id}`}
+          >
+            <p className="text-xl font-bold mb-2 hover:text-secondary transition duration-300">
+              {activeMarker.name}
+            </p>
+          </a>
+          <p className="mb-2">{activeMarker.details}</p>
         </InfoWindow>
       )}
     </>

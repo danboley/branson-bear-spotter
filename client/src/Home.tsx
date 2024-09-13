@@ -55,8 +55,8 @@ const Home: React.FC = () => {
           Bear has been a part of many cultural touchstones that you might not
           even realize, from age-old lullabies, to cutting-edge AI experiments.
         </p>
-        <div className="flex justify-center items-center">
-          <p className="pr-2">
+        <div className="flex-column justify-center items-center">
+          <p className="text-lg font-semibold mb-2">
             Dive deeper in into the Branson Bear universe here:{" "}
           </p>
 

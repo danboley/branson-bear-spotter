@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Register: React.FC = () => {
   const { login } = useAuth();
@@ -14,7 +16,6 @@ const Register: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
-  const [errors, setErrors] = useState<string[] | null>(null);
 
   // Handle input change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -45,6 +46,8 @@ const Register: React.FC = () => {
         isAdmin: false,
       });
 
+      
+
       // Login
       const loginResponse = await axios.post(
         "http://localhost:5005/api/auth/login",
@@ -57,9 +60,9 @@ const Register: React.FC = () => {
       const { token, user } = loginResponse.data;
       login({ token, userId: user.id, isAdmin: user.isAdmin });
       window.location.href = "/home";
+      toast.success("Registration successful!");
     } catch (error: any) {
-      setErrors(error.response.data.error);
-      console.error("Error registering user:", error);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -167,9 +170,6 @@ const Register: React.FC = () => {
           Register
         </button>
       </form>
-      {errors && errors.length > 0 ? (
-        <div className="mt-4 text-red-500 bg-white rounded p-2">{errors}</div>
-      ) : null}
       <div className="mt-4 text-center">
         <p className="text-text-light mb-2">Already a Member?</p>
         <a href="/login">

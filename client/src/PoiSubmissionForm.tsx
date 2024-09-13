@@ -2,6 +2,8 @@ import React, { useState, ChangeEvent, FormEvent } from "react";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { Poi } from "./types/types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface PoiSubmissionFormProps {
   addPoi: (newPoi: Poi) => void;
@@ -9,7 +11,6 @@ interface PoiSubmissionFormProps {
 
 const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
   const { userId, token } = useAuth();
-  const [errors, setErrors] = useState<string[] | null>(null);
   const [poi, setPoi] = useState({
     name: "",
     address: "",
@@ -60,7 +61,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
     if (userId) {
       data.append("userId", userId);
     } else {
-      console.error("Must be a registered user.");
+      toast.error("Must be a registered user.");
       return;
     }
     try {
@@ -75,10 +76,11 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
         }
       );
       addPoi(response.data);
+      toast.success("Submission successful! Pending approval.");
       window.location.href = "/map";
     } catch (error: any) {
-      setErrors(error.response.data.error);
-      console.error("Error submitting POI:", error);
+      toast.error(error.response.data.error);
+      console.log(error);
     }
   };
 
@@ -183,9 +185,6 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
           </button>
         </div>
       </form>
-      {errors && errors.length > 0 ? (
-        <div className="mt-4 text-red-500 bg-white rounded p-2">{errors}</div>
-      ) : null}
     </div>
   );
 };

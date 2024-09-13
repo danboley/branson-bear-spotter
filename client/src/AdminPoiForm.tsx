@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { Poi } from "./types/types";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface AdminPoiFormProps {
   editPoi: (editedPoi: Poi) => void;
@@ -26,7 +28,6 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
     userId: "",
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
-  const [errors, setErrors] = useState<string[] | null>(null);
 
   // Get Poi by Id
   useEffect(() => {
@@ -39,13 +40,8 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           ...response.data,
           existingImagePath: response.data.imagePath || "",
         });
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.message) {
-          setErrors([error.message]);
-        } else {
-          setErrors(["An unexpected error occurred."]);
-        }
-        console.error("Error fetching POIs:", error);
+      } catch (error: any) {
+        toast.error(error.response.data.error);
       }
     };
     getPoiById();
@@ -104,10 +100,10 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
         }
       );
       editPoi(response.data);
+      toast.success("POI updated successfully.");
       window.location.href = "/admin-portal";
     } catch (error: any) {
-      setErrors(error.response.data.error);
-      console.error("Error updating POI:", error);
+      toast.error(error.response.data.error);
     }
   };
 
@@ -124,14 +120,10 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           },
         });
         deletePoi(id!);
+        toast.success("POI deleted successfully.");
         window.location.href = "/admin-portal";
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.message) {
-          setErrors([error.message]);
-        } else {
-          setErrors(["An unexpected error occurred."]);
-        }
-        console.error("Error fetching POIs:", error);
+      } catch (error: any) {
+        toast.error(error.response.data.error);
       }
     }
   };
@@ -271,9 +263,6 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           </button>
         </div>
       </form>
-      {errors && errors.length > 0 ? (
-        <div className="mt-4 text-red-500 bg-white rounded p-2">{errors}</div>
-      ) : null}
     </div>
   );
 };

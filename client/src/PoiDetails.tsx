@@ -31,17 +31,26 @@ const PoiDetails: React.FC = () => {
   }, [id]);
 
   return (
-    <div>
-      <h1>PoiDetails</h1>
-      <p>{poi?.name}</p>
-      <img src={`http://localhost:5005${poi?.imagePath}`}></img>
-      <p>{poi?.address}</p>
-      <div>
-        <p>Submitted By:</p>
+    <div className="bg-main p-4 flex flex-col min-h-screen items-center text-center text-text-light">
+      <h1 className="text-4xl font-bold mb-4">Sighting Details</h1>
+      <h2 className="text-3xl font-bold mb-4 sm:w-1/2 w-5/6">{poi?.name}</h2>
+      <img
+        className="max-w-lg w-full h-auto mb-4"
+        src={`http://localhost:5005${poi?.imagePath}`}
+        alt={poi?.name}
+      ></img>
+      <h3 className="text-lg font-semibold mb-4 sm:w-1/2 w-5/6">
+        {poi?.address}
+      </h3>
+      <div className="flex items-center text-center mb-4">
+        <h3 className="text-lg font-semibold mr-2">Submitted By:</h3>
         <a href={`http://localhost:5173/profile/${poi?.User?.id}`}>
-          <p>{poi?.User?.username}</p>{" "}
+          <p className="text-lg font-semibold hover:text-secondary transition duration-300">
+            {poi?.User?.username}
+          </p>
         </a>
       </div>
+      <p className="max-w-lg w-full">Details: {poi?.details}</p>
     </div>
   );
 };

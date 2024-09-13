@@ -19,12 +19,13 @@ import axios from "axios";
 import "./index.css";
 import NotFound from "./NotFound";
 import About from "./About";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
 const App: React.FC = () => {
   const [pois, setPois] = useState<Poi[]>([]);
-  const [errors, setErrors] = useState<string[] | null>(null);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
@@ -45,13 +46,8 @@ const App: React.FC = () => {
       try {
         const response = await axios.get("http://localhost:5005/api/pois");
         setPois(response.data);
-      } catch (error) {
-        if (axios.isAxiosError(error) && error.message) {
-          setErrors([error.message]);
-        } else {
-          setErrors(["An unexpected error occurred."]);
-        }
-        console.error("Error fetching POIs:", error);
+      } catch (error: any) {
+        toast.error(error.message);
       }
     };
     getPois();
@@ -101,6 +97,7 @@ const App: React.FC = () => {
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <ToastContainer />
           <Footer windowWidth={windowWidth} />
         </Router>
       </AuthProvider>

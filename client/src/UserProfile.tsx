@@ -4,6 +4,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Poi } from "./types/types";
 import PoiCard from "./PoiCard";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface UserProfileProps {
   pois: Poi[];
@@ -45,8 +47,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
             location: response.data.location || "",
             profilePicture: response.data.profilePicture || "",
           });
-        } catch (error) {
-          console.error("Error fetching user data", error);
+        } catch (error: any) {
+          toast.error(error.message);
         }
       }
     };
@@ -79,8 +81,9 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
       );
       setIsEditing(false);
       setUser(formData);
-    } catch (error) {
-      console.error("Error updating user data", error);
+      toast.success("Account updated!");
+    } catch (error: any) {
+      toast.error(error.response.data.error);
     }
   };
 
@@ -100,9 +103,11 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
           }
         );
         logout();
+        toast.success("Account deleted successfully.");
         navigate("/");
-      } catch (error) {
-        console.error("Error deleting account", error);
+      } catch (error: any) {
+        console.log(error);
+        toast.error(error.message);
       }
     }
   };
@@ -118,7 +123,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     <div className="p-4 bg-main text-text-light min-h-screen flex flex-col">
       {!isEditing ? (
         <div>
-          {user.profilePicture && (
+          {user.profilePicture !== "" ? (
             <div className="mb-4 flex justify-center">
               <img
                 src={user.profilePicture}
@@ -126,7 +131,25 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
                 className="mt-2 w-32 h-32 object-cover rounded-full"
               />
             </div>
+          ) : (
+            <div className="mb-4 flex justify-center">
+              <img
+                src="/stockprofilepicture.png"
+                alt="Profile"
+                className="mt-2 w-32 h-32 object-cover rounded-full"
+              />
+            </div>
           )}
+          {isOwnProfile && user.profilePicture.length === 0 ? (
+            <div className="my-2 space-x-4 text-center">
+              <button
+                onClick={handleEditClick}
+                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Add Profile Picture
+              </button>
+            </div>
+          ) : null}
           {isOwnProfile && (
             <div className="my-2 space-x-4 text-center">
               <button
@@ -145,14 +168,18 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
             {user.firstName} {user.lastName}
           </p>
           <p className="text-center">{user.location || ""}</p>
-          <h3 className="text-xl font-semibold mt-2 mb-4 text-center">
-            Submissions:
-          </h3>
-          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {activeUserPois.map((poi) => (
-              <PoiCard key={poi.id} poi={poi} />
-            ))}
-          </div>
+          {activeUserPois.length > 0 ? (
+            <div>
+              <h3 className="text-xl font-semibold mt-2 mb-4 text-center">
+                Submissions:
+              </h3>
+              <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                {activeUserPois.map((poi) => (
+                  <PoiCard key={poi.id} poi={poi} />
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       ) : (
         <div className="flex flex-col items-center">
