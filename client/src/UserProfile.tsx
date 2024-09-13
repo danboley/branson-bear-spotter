@@ -155,7 +155,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
           </div>
         </div>
       ) : (
-        <>
+        <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
           <form
             onSubmit={handleSubmit}
@@ -243,7 +243,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               </button>
             </div>
           </form>
-        </>
+        </div>
       )}
     </div>
   );
