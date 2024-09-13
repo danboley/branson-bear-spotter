@@ -26,38 +26,56 @@ const AdminPortal: React.FC<AdminPortalProps> = ({ pois }) => {
       field: "address",
       minWidth: 100,
       flex: 1,
-      filter: true
+      filter: true,
     },
-    { headerName: "Lat", field: "latitude", minWidth: 100, flex: 1, filter: true },
-    { headerName: "Long", field: "longitude", minWidth: 100, flex: 1, filter: true },
-    { headerName: "Details", field: "details", minWidth: 200, flex: 3, filter: true },
+    {
+      headerName: "Lat",
+      field: "latitude",
+      minWidth: 100,
+      flex: 1,
+      filter: true,
+    },
+    {
+      headerName: "Long",
+      field: "longitude",
+      minWidth: 100,
+      flex: 1,
+      filter: true,
+    },
+    {
+      headerName: "Details",
+      field: "details",
+      minWidth: 200,
+      flex: 3,
+      filter: true,
+    },
     {
       headerName: "Approval Status",
       field: "approvalStatus",
       minWidth: 100,
       flex: 1,
-      filter: true
+      filter: true,
     },
     {
       headerName: "Approval Notes",
       field: "approvalNotes",
       minWidth: 200,
       flex: 3,
-      filter: true
+      filter: true,
     },
     {
       headerName: "Image",
       field: "imagePath",
       minWidth: 200,
       flex: 3,
-      filter: true
+      filter: true,
     },
     {
       headerName: "Submitted By",
-      field: "userId",
+      field: "User.username",
       minWidth: 100,
       flex: 1,
-      filter: true
+      filter: true,
     },
   ];
 

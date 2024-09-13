@@ -147,7 +147,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
       >
         <div className="mb-4">
           <label className="block text-lg font-semibold mb-2">
-            Location Name:
+            Location Name
           </label>
           <input
             type="text"
@@ -159,7 +159,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Address:</label>
+          <label className="block text-lg font-semibold mb-2">Address</label>
           <input
             type="text"
             name="address"
@@ -170,7 +170,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Details:</label>
+          <label className="block text-lg font-semibold mb-2">Details</label>
           <textarea
             name="details"
             value={poi.details}
@@ -179,7 +179,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Latitude:</label>
+          <label className="block text-lg font-semibold mb-2">Latitude</label>
           <input
             type="number"
             name="latitude"
@@ -189,7 +189,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Longitude:</label>
+          <label className="block text-lg font-semibold mb-2">Longitude</label>
           <input
             type="number"
             name="longitude"
@@ -199,7 +199,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Image:</label>
+          <label className="block text-lg font-semibold mb-2">Image</label>
           {poi?.existingImagePath && (
             <div className="mt-4">
               <label>Current Image</label>
@@ -229,7 +229,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
         </div>
         <div className="mb-4">
           <label className="block text-lg font-semibold mb-2">
-            Approval Status:
+            Approval Status
           </label>
           <select
             name="approvalStatus"
@@ -246,7 +246,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
         </div>
         <div className="mb-4">
           <label className="block text-lg font-semibold mb-2">
-            Approval Notes:
+            Approval Notes
           </label>
           <textarea
             name="approvalNotes"

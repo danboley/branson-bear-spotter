@@ -1,4 +1,4 @@
-import { Map, MapCameraChangedEvent } from "@vis.gl/react-google-maps";
+import { Map } from "@vis.gl/react-google-maps";
 import PoiMarkers from "./poiMarkers";
 import { Poi } from "./types/types";
 
@@ -18,9 +18,6 @@ const MapContainer: React.FC<MapContainerProps> = ({ pois }) => {
         //// Branson, MO:
         // defaultCenter={{ lat: 36.64398023185545, lng: -93.21784457195432 }}
         mapId="DEMO_MAP_ID"
-        // onCameraChanged={(ev: MapCameraChangedEvent) =>
-        //   console.log("camera changed:", ev.detail.center, "zoom:", ev.detail.zoom)
-        // }
         className="w-11/12 sm:w-5/6 lg:h-[600px] md:h-[500px] h-[400px] border-white border-2 rounded"
       >
         {" "}

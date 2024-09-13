@@ -111,28 +111,15 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     return <div>Loading...</div>;
   }
 
-  const userPois = pois.filter((poi) => poi.userId === profileId);
-
+  const activeUserPois = pois.filter(
+    (poi) => poi.approvalStatus === "active" && poi.userId === profileId
+  );
   return (
-    <div className="p-4 bg-main text-text-light min-h-screen flex flex-col items-center">
+    <div className="p-4 bg-main text-text-light min-h-screen flex flex-col">
       {!isEditing ? (
-        <>
-          <h2 className="text-2xl font-bold mb-4">{user.username}'s Profile</h2>
-          <p>
-            <strong>First Name:</strong> {user.firstName}
-          </p>
-          <p>
-            <strong>Last Name:</strong> {user.lastName}
-          </p>
-          <p>
-            <strong>Username:</strong> {user.username}
-          </p>
-          <p>
-            <strong>Location:</strong> {user.location || ""}
-          </p>
+        <div>
           {user.profilePicture && (
-            <div className="mb-4">
-              <strong>Profile Picture:</strong>
+            <div className="mb-4 flex justify-center">
               <img
                 src={user.profilePicture}
                 alt="Profile"
@@ -140,9 +127,8 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               />
             </div>
           )}
-
           {isOwnProfile && (
-            <div className="my-2 space-x-4">
+            <div className="my-2 space-x-4 text-center">
               <button
                 onClick={handleEditClick}
                 className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
@@ -151,18 +137,25 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               </button>
             </div>
           )}
+          <h2 className="text-2xl font-bold mb-2 text-center">
+            {user.username}
+          </h2>
 
-          <h3 className="text-xl font-semibold mt-2 mb-4">
-            Submissions by {user.username || "this user"}:
+          <p className="text-center">
+            {user.firstName} {user.lastName}
+          </p>
+          <p className="text-center">{user.location || ""}</p>
+          <h3 className="text-xl font-semibold mt-2 mb-4 text-center">
+            Submissions:
           </h3>
-          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {userPois.map((poi) => (
+          <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {activeUserPois.map((poi) => (
               <PoiCard key={poi.id} poi={poi} />
             ))}
           </div>
-        </>
+        </div>
       ) : (
-        <>
+        <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
           <form
             onSubmit={handleSubmit}
@@ -229,28 +222,28 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               />
             </div>
             <div className="space-x-4">
-            <button
-              type="submit"
-              className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-            >
-              Save Changes
-            </button>
-            <button
-              type="button"
-              onClick={() => setIsEditing(false)}
-              className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-            >
-              Cancel Changes
-            </button>
-            <button
-              onClick={handleDeleteAccount}
-              className="bg-red-500 text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-            >
-              Delete Account
-            </button>
+              <button
+                type="submit"
+                className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Save Changes
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditing(false)}
+                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Cancel Changes
+              </button>
+              <button
+                onClick={handleDeleteAccount}
+                className="bg-red-500 text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Delete Account
+              </button>
             </div>
           </form>
-        </>
+        </div>
       )}
     </div>
   );
