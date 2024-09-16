@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 
 const NavBar: React.FC = () => {
+  const navigate = useNavigate();
   const { token, userId, logout, isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -78,7 +79,7 @@ const NavBar: React.FC = () => {
             <button
               onClick={() => {
                 logout();
-                window.location.href = "/login";
+                navigate("/login");
               }}
               className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
             >
@@ -166,7 +167,7 @@ const NavBar: React.FC = () => {
             <button
               onClick={() => {
                 logout();
-                window.location.href = "/login";
+                navigate("/login");
               }}
               className="bg-secondary text-text-light px-4 py-2 rounded mt-4 hover:bg-secondary-dark transition duration-300"
             >

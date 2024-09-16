@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { Poi } from "./types/types";
@@ -11,6 +12,7 @@ interface PoiSubmissionFormProps {
 
 const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
   const { userId, token } = useAuth();
+  const navigate = useNavigate();
   const [poi, setPoi] = useState({
     name: "",
     address: "",
@@ -77,7 +79,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
       );
       addPoi(response.data);
       toast.success("Submission successful! Pending approval.");
-      window.location.href = "/map";
+      navigate("/map");
     } catch (error: any) {
       toast.error(error.response.data.error);
       console.log(error);
@@ -86,7 +88,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
 
   // Handle edit cancellation
   const cancelEdit = () => {
-    window.location.href = "/map";
+    navigate("/map");
   };
 
   return (

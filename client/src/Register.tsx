@@ -1,4 +1,5 @@
 import React, { useState, FormEvent } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
@@ -6,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Register: React.FC = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -46,8 +48,6 @@ const Register: React.FC = () => {
         isAdmin: false,
       });
 
-      
-
       // Login
       const loginResponse = await axios.post(
         "http://localhost:5005/api/auth/login",
@@ -59,8 +59,8 @@ const Register: React.FC = () => {
 
       const { token, user } = loginResponse.data;
       login({ token, userId: user.id, isAdmin: user.isAdmin });
-      window.location.href = "/home";
       toast.success("Registration successful!");
+      navigate("/home");
     } catch (error: any) {
       toast.error(error.response.data.error);
     }
