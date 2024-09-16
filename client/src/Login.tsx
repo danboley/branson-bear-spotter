@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -6,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Login: React.FC = () => {
   const { login } = useAuth();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -20,7 +22,7 @@ const Login: React.FC = () => {
       );
       const { token, user } = response.data;
       login({ token, userId: user.id, isAdmin: user.isAdmin });
-      window.location.href = "/home";
+      navigate("/home");
     } catch (error: any) {
       toast.error(error.response.data.error);
     }

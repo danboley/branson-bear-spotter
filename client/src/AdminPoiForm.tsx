@@ -1,5 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { Poi } from "./types/types";
@@ -13,6 +13,7 @@ interface AdminPoiFormProps {
 
 const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
   const { userId, token } = useAuth();
+  const navigate = useNavigate();
   const { id } = useParams();
   const [poi, setPoi] = useState({
     id: "",
@@ -101,7 +102,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
       );
       editPoi(response.data);
       toast.success("POI updated successfully.");
-      window.location.href = "/admin-portal";
+      navigate("/admin-portal");
     } catch (error: any) {
       toast.error(error.response.data.error);
     }
@@ -121,7 +122,7 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
         });
         deletePoi(id!);
         toast.success("POI deleted successfully.");
-        window.location.href = "/admin-portal";
+        navigate("/admin-portal");
       } catch (error: any) {
         toast.error(error.response.data.error);
       }
