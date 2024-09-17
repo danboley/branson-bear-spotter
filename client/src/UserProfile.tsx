@@ -134,6 +134,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         toast.success("Account deleted successfully.");
         navigate("/");
       } catch (error: any) {
+        console.log(error);
         toast.error(error.message);
       }
     }
@@ -159,7 +160,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
                   : "/stockprofilepicture.png"
               }
               alt="Profile"
-              className="mt-2 w-32 h-32 object-cover rounded-full"
+              className="mt-2 w-32 h-32 object-cover rounded-full border-2 border-white"
             />
           </div>
           {isOwnProfile && (
@@ -191,116 +192,124 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
                 ))}
               </div>
             </div>
-          ) : null}
+          ) : (
+            <div>
+              <h3 className="text-xl font-semibold mt-2 mb-4 text-center">
+                No submissions yet...
+              </h3>
+            </div>
+          )}
         </div>
       ) : (
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
-          <form
-            onSubmit={handleSubmit}
-            className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md"
-          >
-            <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2">
-                First Name
-              </label>
-              <input
-                type="text"
-                name="firstName"
-                value={userData.firstName}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2">
-                Last Name
-              </label>
-              <input
-                type="text"
-                name="lastName"
-                value={userData.lastName}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2">
-                Username
-              </label>
-              <input
-                type="text"
-                name="username"
-                value={userData.username}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2">
-                Location
-              </label>
-              <input
-                type="text"
-                name="location"
-                value={userData.location}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
-            </div>
-            <div className="mb-4">
-              <label className="block text-lg font-semibold mb-2">
-                Profile Picture URL
-              </label>
-              {userData?.existingImagePath && (
-                <div className="mt-4">
-                  <label>Current Image</label>
-                  <img
-                    src={`http://localhost:5005${userData?.existingImagePath}`}
-                    alt="Current Profile Picture"
-                    className="w-full h-auto border border-gray-300 rounded"
-                  />
-                </div>
-              )}
-              {imagePreview && (
-                <div className="mt-4">
-                  <label>New Image</label>
-                  <img
-                    src={imagePreview}
-                    alt="Profile Picture Preview"
-                    className="w-full h-auto border border-gray-300 rounded"
-                  />
-                </div>
-              )}
-              <input
-                type="file"
-                name="imagePath"
-                className="mt-4 w-full p-2 border border-gray-300 rounded"
-                onChange={handleFileChange}
-              />
-            </div>
-            <div className="space-x-4">
-              <button
-                type="submit"
-                className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-              >
-                Save Changes
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsEditing(false)}
-                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-              >
-                Cancel Changes
-              </button>
-              <button
-                onClick={handleDeleteAccount}
-                className="bg-red-500 text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-              >
-                Delete Account
-              </button>
-            </div>
-          </form>
+          <div className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md">
+            <form
+              onSubmit={handleSubmit}
+              // className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md"
+            >
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  name="firstName"
+                  value={userData.firstName}
+                  onChange={handleFormChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  name="lastName"
+                  value={userData.lastName}
+                  onChange={handleFormChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={userData.username}
+                  onChange={handleFormChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  Location
+                </label>
+                <input
+                  type="text"
+                  name="location"
+                  value={userData.location}
+                  onChange={handleFormChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  Profile Picture URL
+                </label>
+                {userData?.existingImagePath && (
+                  <div className="mt-4">
+                    <label>Current Image</label>
+                    <img
+                      src={`http://localhost:5005${userData?.existingImagePath}`}
+                      alt="Current Profile Picture"
+                      className="w-full h-auto border border-gray-300 rounded"
+                    />
+                  </div>
+                )}
+                {imagePreview && (
+                  <div className="mt-4">
+                    <label>New Image</label>
+                    <img
+                      src={imagePreview}
+                      alt="Profile Picture Preview"
+                      className="w-full h-auto border border-gray-300 rounded"
+                    />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  name="imagePath"
+                  className="mt-4 w-full p-2 border border-gray-300 rounded"
+                  onChange={handleFileChange}
+                />
+              </div>
+              <div className="space-x-4">
+                <button
+                  type="submit"
+                  className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+                >
+                  Save Changes
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+                >
+                  Cancel Changes
+                </button>
+              </div>
+            </form>
+            <button
+              onClick={handleDeleteAccount}
+              className="bg-red-500 text-text-light px-4 py-2 mt-4 rounded hover:bg-secondary-dark transition duration-300"
+            >
+              Delete Account
+            </button>
+          </div>
         </div>
       )}
     </div>

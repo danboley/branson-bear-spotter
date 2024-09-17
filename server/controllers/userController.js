@@ -1,4 +1,4 @@
-const { User } = require("../models");
+const { User, Poi } = require("../models");
 const upload = require("../middlewares/imageUploads");
 const path = require("path");
 const fs = require("fs");
@@ -82,12 +82,21 @@ const updateUser = (req, res) => {
 // Delete a user
 const deleteUser = async (req, res) => {
   try {
-    const deleted = await User.destroy({
-      where: { id: req.params.id },
-    });
-    if (!deleted) {
+    const userId = req.params.id;
+    const user = await User.findByPk(userId);
+
+    if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
+
+    // Update associated POIs to have NULL userId
+    await Poi.update({ userId: null }, { where: { userId } });
+
+    // Delete the user
+    await User.destroy({
+      where: { id: userId },
+    });
+
     res.status(204).end();
   } catch (error) {
     res.status(500).json({ error: error.message });
