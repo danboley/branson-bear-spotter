@@ -21,6 +21,8 @@ import NotFound from "./NotFound";
 import About from "./About";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ManageSubmissions from "./ManageSubmissions";
+import EditSubmissionForm from "./EditSubmissionForm";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -95,6 +97,8 @@ const App: React.FC = () => {
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
+            <Route path="/manage-submissions/:id" element={<ManageSubmissions />} />
+            <Route path="/edit-submission/:id" element={<EditSubmissionForm />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ToastContainer />

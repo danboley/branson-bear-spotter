@@ -3,7 +3,7 @@ import { useAuth } from "./AuthContext";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Poi } from "./types/types";
-import PoiCard from "./PoiCard";
+import DisplayPoiCard from "./DisplayPoiCard";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -140,6 +140,10 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     }
   };
 
+  const handleManageSubmissionsClick = () => {
+    navigate(`/manage-submissions/${profileId}`);
+  };
+
   if (!user) {
     return <div>Loading...</div>;
   }
@@ -171,6 +175,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               >
                 Edit Profile
               </button>
+              {/* {activeUserPois.length > 0 && ( */}
+              <button
+                onClick={handleManageSubmissionsClick}
+                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              >
+                Manage Submissions
+              </button>
+              {/* )} */}
             </div>
           )}
           <h2 className="text-2xl font-bold mb-2 text-center">
@@ -188,7 +200,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               </h3>
               <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {activeUserPois.map((poi) => (
-                  <PoiCard key={poi.id} poi={poi} />
+                  <DisplayPoiCard key={poi.id} poi={poi} />
                 ))}
               </div>
             </div>
@@ -204,10 +216,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         <div className="flex flex-col items-center">
           <h2 className="text-2xl font-bold mb-4">Edit Profile Information</h2>
           <div className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md">
-            <form
-              onSubmit={handleSubmit}
-              // className="w-full max-w-lg text-black bg-white p-6 rounded-lg shadow-md"
-            >
+            <form onSubmit={handleSubmit}>
               <div className="mb-4">
                 <label className="block text-lg font-semibold mb-2">
                   First Name
