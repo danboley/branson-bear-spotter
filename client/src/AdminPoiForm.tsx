@@ -83,7 +83,11 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
     data.append("longitude", poi.longitude);
     data.append("approvalNotes", poi.approvalNotes);
     data.append("approvalStatus", poi.approvalStatus);
-    data.append("userId", poi.userId);
+    if (poi.userId === "") {
+      data.append("userId", "null"); // Not ideal; better to omit the key if possible
+    } else {
+      data.append("userId", poi.userId);
+    }
     if (poi.imagePath) {
       data.append("imagePath", poi.imagePath);
     } else {

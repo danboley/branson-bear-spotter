@@ -76,6 +76,10 @@ const updatePoi = (req, res) => {
         updatedData.imagePath = req.body.existingImagePath;
       }
 
+      if (updatedData.userId === "null") {
+        updatedData.userId = null;
+      }
+
       await Poi.update(updatedData, {
         where: { id: req.params.id },
       });

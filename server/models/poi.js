@@ -88,7 +88,7 @@ module.exports = (sequelize, DataTypes) => {
           model: "Users",
           key: "id",
         },
-        allowNull: false,
+        allowNull: true,
       },
     },
     {
