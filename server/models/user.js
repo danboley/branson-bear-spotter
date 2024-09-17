@@ -65,7 +65,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.BOOLEAN,
         allowNull: false,
       },
-      profilePicture: {
+      imagePath: {
         type: DataTypes.STRING,
         allowNull: true,
       },

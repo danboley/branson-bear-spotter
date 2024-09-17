@@ -15,44 +15,47 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const { userId: loggedInUserId, token, logout } = useAuth();
   const [user, setUser] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
+  const [userData, setUserData] = useState({
     firstName: "",
     lastName: "",
     username: "",
     location: "",
-    profilePicture: "",
+    imagePath: null as File | null,
+    existingImagePath: "",
   });
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const { id: profileId } = useParams();
   const navigate = useNavigate();
   const isOwnProfile = loggedInUserId === profileId;
 
-  useEffect(() => {
-    const getUser = async () => {
-      if (profileId && token) {
-        try {
-          const response = await axios.get(
-            `http://localhost:5005/api/users/${profileId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-          setUser(response.data);
-          setFormData({
-            firstName: response.data.firstName || "",
-            lastName: response.data.lastName || "",
-            username: response.data.username || "",
-            location: response.data.location || "",
-            profilePicture: response.data.profilePicture || "",
-          });
-        } catch (error: any) {
-          toast.error(error.message);
-        }
+  const getUser = async () => {
+    if (profileId && token) {
+      try {
+        const response = await axios.get(
+          `http://localhost:5005/api/users/${profileId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setUser(response.data);
+        setUserData({
+          firstName: response.data.firstName || "",
+          lastName: response.data.lastName || "",
+          username: response.data.username || "",
+          location: response.data.location || "",
+          imagePath: response.data.imagePath || "",
+          existingImagePath: response.data.imagePath || "",
+        });
+      } catch (error: any) {
+        toast.error(error.message);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     getUser();
   }, [profileId, token]);
 
@@ -61,27 +64,52 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   };
 
   const handleFormChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
+    setUserData({
+      ...userData,
       [e.target.name]: e.target.value,
     });
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setUserData({
+        ...userData,
+        imagePath: file,
+      });
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const data = new FormData();
+    data.append("firstName", userData.firstName);
+    data.append("lastName", userData.lastName);
+    data.append("username", userData.username);
+    data.append("location", userData.location);
+    if (userData.imagePath) {
+      data.append("imagePath", userData.imagePath);
+    } else {
+      data.append("imagePath", userData.existingImagePath);
+    }
     try {
       await axios.put(
         `http://localhost:5005/api/users/${loggedInUserId}`,
-        formData,
+        data,
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
           },
         }
       );
+      setImagePreview(null);
+      getUser();
       setIsEditing(false);
-      setUser(formData);
+      setUser(userData);
       toast.success("Account updated!");
+      navigate(`/profile/${profileId}`);
     } catch (error: any) {
       toast.error(error.response.data.error);
     }
@@ -106,7 +134,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         toast.success("Account deleted successfully.");
         navigate("/");
       } catch (error: any) {
-        console.log(error);
         toast.error(error.message);
       }
     }
@@ -119,37 +146,24 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const activeUserPois = pois.filter(
     (poi) => poi.approvalStatus === "active" && poi.userId === profileId
   );
+
+  console.log("user.imagePath", user?.imagePath);
+
   return (
     <div className="p-4 bg-main text-text-light min-h-screen flex flex-col">
       {!isEditing ? (
         <div>
-          {user.profilePicture !== "" ? (
-            <div className="mb-4 flex justify-center">
-              <img
-                src={user.profilePicture}
-                alt="Profile"
-                className="mt-2 w-32 h-32 object-cover rounded-full"
-              />
-            </div>
-          ) : (
-            <div className="mb-4 flex justify-center">
-              <img
-                src="/stockprofilepicture.png"
-                alt="Profile"
-                className="mt-2 w-32 h-32 object-cover rounded-full"
-              />
-            </div>
-          )}
-          {isOwnProfile && user.profilePicture.length === 0 ? (
-            <div className="my-2 space-x-4 text-center">
-              <button
-                onClick={handleEditClick}
-                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
-              >
-                Add Profile Picture
-              </button>
-            </div>
-          ) : null}
+          <div className="mb-4 flex justify-center">
+            <img
+              src={
+                user.imagePath
+                  ? `http://localhost:5005${user.imagePath}`
+                  : "/stockprofilepicture.png"
+              }
+              alt="Profile"
+              className="mt-2 w-32 h-32 object-cover rounded-full"
+            />
+          </div>
           {isOwnProfile && (
             <div className="my-2 space-x-4 text-center">
               <button
@@ -195,7 +209,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <input
                 type="text"
                 name="firstName"
-                value={formData.firstName}
+                value={userData.firstName}
                 onChange={handleFormChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -207,7 +221,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <input
                 type="text"
                 name="lastName"
-                value={formData.lastName}
+                value={userData.lastName}
                 onChange={handleFormChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -219,7 +233,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <input
                 type="text"
                 name="username"
-                value={formData.username}
+                value={userData.username}
                 onChange={handleFormChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -231,7 +245,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <input
                 type="text"
                 name="location"
-                value={formData.location}
+                value={userData.location}
                 onChange={handleFormChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -240,12 +254,31 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
               <label className="block text-lg font-semibold mb-2">
                 Profile Picture URL
               </label>
+              {userData?.existingImagePath && (
+                <div className="mt-4">
+                  <label>Current Image</label>
+                  <img
+                    src={`http://localhost:5005${userData?.existingImagePath}`}
+                    alt="Current Profile Picture"
+                    className="w-full h-auto border border-gray-300 rounded"
+                  />
+                </div>
+              )}
+              {imagePreview && (
+                <div className="mt-4">
+                  <label>New Image</label>
+                  <img
+                    src={imagePreview}
+                    alt="Profile Picture Preview"
+                    className="w-full h-auto border border-gray-300 rounded"
+                  />
+                </div>
+              )}
               <input
-                type="text"
-                name="profilePicture"
-                value={formData.profilePicture}
-                onChange={handleFormChange}
-                className="w-full p-2 border border-gray-300 rounded"
+                type="file"
+                name="imagePath"
+                className="mt-4 w-full p-2 border border-gray-300 rounded"
+                onChange={handleFileChange}
               />
             </div>
             <div className="space-x-4">

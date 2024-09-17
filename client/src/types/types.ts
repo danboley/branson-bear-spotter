@@ -6,7 +6,7 @@ export interface User {
   firstName: string;
   lastName: string;
   isAdmin: boolean;
-  profilePicture?: string;
+  imagePath?: string;
   location?: string;
 }
 
