@@ -147,8 +147,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     (poi) => poi.approvalStatus === "active" && poi.userId === profileId
   );
 
-  console.log("user.imagePath", user?.imagePath);
-
   return (
     <div className="p-4 bg-main text-text-light min-h-screen flex flex-col">
       {!isEditing ? (
