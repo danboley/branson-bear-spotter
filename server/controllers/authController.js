@@ -1,36 +1,42 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const upload = require("../middlewares/imageUploads");
 
-const register = async (req, res) => {
-  try {
-    const {
-      username,
-      email,
-      password,
-      firstName,
-      lastName,
-      isAdmin,
-      profilePicture,
-      location,
-    } = req.body;
-    const hashedPassword = await bcrypt.hash(password, 10);
+const register = (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
+    }
+    try {
+      const {
+        username,
+        email,
+        password,
+        firstName,
+        lastName,
+        isAdmin,
+        location,
+      } = req.body;
 
-    const newUser = await User.create({
-      username,
-      email,
-      password: hashedPassword,
-      firstName,
-      lastName,
-      isAdmin,
-      profilePicture,
-      location,
-    });
+      const hashedPassword = await bcrypt.hash(password, 10);
 
-    res.status(201).json(newUser);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+      const newUser = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+        firstName,
+        lastName,
+        isAdmin,
+        location,
+        imagePath: req.file ? `/uploads/${req.file.filename}` : null,
+      });
+
+      res.status(201).json(newUser);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 };
 
 const login = async (req, res) => {

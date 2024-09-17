@@ -37,7 +37,7 @@ module.exports = {
         allowNull: false,
         defaultValue: false,
       },
-      profilePicture: {
+      imagePath: {
         type: Sequelize.STRING,
         allowNull: true,
       },

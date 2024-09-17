@@ -1,4 +1,17 @@
 const { User } = require("../models");
+const upload = require("../middlewares/imageUploads");
+const path = require("path");
+const fs = require("fs");
+
+// Helper function to delete old image
+const deleteOldImage = (imagePath) => {
+  if (imagePath) {
+    const oldImagePath = path.join(__dirname, "..", imagePath);
+    fs.unlink(oldImagePath, (err) => {
+      if (err) console.error("Error deleting old file:", err);
+    });
+  }
+};
 
 // Create a new user
 const createUser = async (req, res) => {
@@ -34,19 +47,36 @@ const getUserById = async (req, res) => {
 };
 
 // Update a user
-const updateUser = async (req, res) => {
-  try {
-    const [updated] = await User.update(req.body, {
-      where: { id: req.params.id },
-    });
-    if (!updated) {
-      return res.status(404).json({ error: "User not found" });
+const updateUser = (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      return res.status(400).json({ error: err.message });
     }
-    const updatedUser = await User.findByPk(req.params.id);
-    res.status(200).json(updatedUser);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
+    try {
+      const user = await User.findByPk(req.params.id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      const updatedData = { ...req.body };
+
+      if (req.file) {
+        deleteOldImage(user.imagePath);
+        updatedData.imagePath = `/uploads/${req.file.filename}`;
+      } else if (req.body.existingImagePath) {
+        updatedData.imagePath = req.body.existingImagePath;
+      }
+
+      await User.update(updatedData, {
+        where: { id: req.params.id },
+      });
+
+      const updatedUser = await User.findByPk(req.params.id);
+      res.status(200).json(updatedUser);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
+    }
+  });
 };
 
 // Delete a user

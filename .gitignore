@@ -7,7 +7,7 @@
 .env
 
 # images
-/uploads
+/server/uploads
 
 # testing
 /coverage
