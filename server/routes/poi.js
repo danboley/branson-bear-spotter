@@ -8,11 +8,10 @@ const {
   updatePoi,
   deletePoi,
 } = require("../controllers/poiController");
-const { authenticate } = require("../controllers/authController");
 const { authenticateToken, verifyPrivileges } = require("../middlewares/auth");
 
 // Create a new POI
-router.post("/", authenticate, createPoi);
+router.post("/", authenticateToken, createPoi);
 
 // Get all POIs
 router.get("/", getAllPois);
