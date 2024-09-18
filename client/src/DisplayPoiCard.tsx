@@ -5,7 +5,7 @@ interface PoiCardProps {
   poi: Poi;
 }
 
-const PoiCard: React.FC<PoiCardProps> = ({ poi }) => {
+const DisplayPoiCard: React.FC<PoiCardProps> = ({ poi }) => {
   return (
     <div className=" bg-white shadow-md p-4 rounded-lg">
       {poi?.imagePath ? (
@@ -32,4 +32,4 @@ const PoiCard: React.FC<PoiCardProps> = ({ poi }) => {
   );
 };
 
-export default PoiCard;
+export default DisplayPoiCard;

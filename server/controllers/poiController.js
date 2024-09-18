@@ -54,6 +54,23 @@ const getPoiById = async (req, res) => {
   }
 };
 
+// Get all POIs for a specific user
+const getPoisByUserId = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const pois = await Poi.findAll({
+      where: { userId },
+      include: User
+    });
+    if (pois.length === 0) {
+      return res.status(404).json({ error: "No POIs found for this user" });
+    }
+    res.status(200).json(pois);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 // Update a POI
 const updatePoi = (req, res) => {
   upload(req, res, async (err) => {
@@ -112,6 +129,7 @@ module.exports = {
   createPoi,
   getAllPois,
   getPoiById,
+  getPoisByUserId,
   updatePoi,
   deletePoi,
 };
