@@ -127,7 +127,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         toast.success("Account deleted successfully.");
         navigate("/");
       } catch (error: any) {
-        console.log(error);
         toast.error(error.message);
       }
     }

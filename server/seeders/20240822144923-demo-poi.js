@@ -12,7 +12,7 @@ module.exports = {
         latitude: 37.7749,
         longitude: -122.4194,
         approvalStatus: "pending",
-        userId: "ee5a06c3-793d-46c3-a0ce-6c4d62aca7e2", // Replace with actual user ID from User seeder
+        userId: "ee5a06c3-793d-46c3-a0ce-6c4d62aca7e2",
         approvalNotes: null,
         imagePAth: null,
         createdAt: new Date(),
@@ -26,7 +26,7 @@ module.exports = {
         latitude: 40.7128,
         longitude: -74.006,
         approvalStatus: "pending",
-        userId: "ee5a06c3-793d-46c3-a0ce-6c4d62aca7e2", // Replace with another actual user ID
+        userId: "ee5a06c3-793d-46c3-a0ce-6c4d62aca7e2",
         approvalNotes: null,
         imagePAth: null,
         createdAt: new Date(),
