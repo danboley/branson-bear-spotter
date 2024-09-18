@@ -55,7 +55,7 @@ const Login: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+          className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary transition duration-300"
         >
           Login
         </button>
@@ -63,7 +63,7 @@ const Login: React.FC = () => {
       <div className="mt-4 text-center">
         <p className="text-text-light mb-2">New User?</p>
         <a href="/register">
-          <button className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
+          <button className="bg-secondary border-2 border-white hover:bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
             Sign Up
           </button>
         </a>

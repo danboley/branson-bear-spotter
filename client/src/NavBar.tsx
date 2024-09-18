@@ -81,7 +81,7 @@ const NavBar: React.FC = () => {
                 logout();
                 navigate("/login");
               }}
-              className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+              className="bg-secondary text-text-light px-4 py-2 rounded border-2 border-white hover:bg-main transition duration-300"
             >
               Logout
             </button>
@@ -169,7 +169,7 @@ const NavBar: React.FC = () => {
                 logout();
                 navigate("/login");
               }}
-              className="bg-secondary text-text-light px-4 py-2 rounded mt-4 hover:bg-secondary-dark transition duration-300"
+              className="bg-secondary text-text-light px-4 py-2 rounded mt-4 border-2 border-white hover:bg-main transition duration-300"
             >
               Logout
             </button>

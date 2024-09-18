@@ -19,19 +19,19 @@ const Home: React.FC = () => {
           </h3>
           <div className="space-x-4">
             <a href="/map">
-              <button className="bg-secondary text-text-light my-2 px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
+              <button className="bg-secondary border-2 border-white hover:bg-main text-text-light my-2 px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
                 Explore All Sightings
               </button>
             </a>
             {token ? (
               <a href="/submissions">
-                <button className="bg-secondary text-text-light my-2 px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
+                <button className="bg-secondary border-2 border-white hover:bg-main text-text-light my-2 px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
                   Report A Sighting
                 </button>
               </a>
             ) : (
               <a href="/login">
-                <button className="bg-secondary text-text-light my-2 px-4 py-2 rounded hover:bg-main-dark transition duration-300">
+                <button className="bg-secondary border-2 border-white hover:bg-main text-text-light my-2 px-4 py-2 rounded hover:bg-main-dark transition duration-300">
                   Sign In to Report A Sighting
                 </button>
               </a>
@@ -62,7 +62,7 @@ const Home: React.FC = () => {
 
           <button
             type="button"
-            className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+            className="bg-secondary text-text-light px-4 py-2 rounded border-2 border-white hover:bg-main transition duration-300"
           >
             <a href="https://www.littlebransonbear.com" target="_blank">
               {" "}

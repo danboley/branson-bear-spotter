@@ -34,11 +34,20 @@ const PoiDetails: React.FC = () => {
     <div className="bg-main p-4 flex flex-col min-h-screen items-center text-center text-text-light">
       <h1 className="text-4xl font-bold mb-4">Sighting Details</h1>
       <h2 className="text-3xl font-bold mb-4 sm:w-1/2 w-5/6">{poi?.name}</h2>
-      <img
-        className="max-w-lg w-full h-auto mb-4"
-        src={`http://localhost:5005${poi?.imagePath}`}
-        alt={poi?.name}
-      ></img>
+      {poi?.imagePath ? (
+        <img
+          src={`http://localhost:5005${poi?.imagePath}`}
+          alt={poi?.name}
+          className="max-w-lg w-full h-auto mb-4"
+        />
+      ) : (
+        <img
+          src={`/bransonbear.png`}
+          alt={poi?.name}
+          className="max-w-lg w-full h-auto mb-4"
+        />
+      )}
+
       <h3 className="text-lg font-semibold mb-4 sm:w-1/2 w-5/6">
         {poi?.address}
       </h3>
