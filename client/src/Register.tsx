@@ -240,7 +240,7 @@ const Register: React.FC = () => {
     data.append("firstName", formData.firstName);
     data.append("lastName", formData.lastName);
     data.append("location", formData.location);
-    data.append("isAdmin", "false")
+    data.append("isAdmin", "false");
     if (formData.imagePath) {
       data.append("imagePath", formData.imagePath);
     }
@@ -335,7 +335,9 @@ const Register: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Profile Picture</label>
+          <label className="block text-lg font-semibold mb-2">
+            Profile Picture
+          </label>
           <input
             type="file"
             name="imagePath"
@@ -364,7 +366,9 @@ const Register: React.FC = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Confirm Password</label>
+          <label className="block text-lg font-semibold mb-2">
+            Confirm Password
+          </label>
           <input
             type="password"
             name="confirmPassword"
@@ -376,7 +380,7 @@ const Register: React.FC = () => {
         </div>
         <button
           type="submit"
-          className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+          className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary transition duration-300"
         >
           Register
         </button>
@@ -384,7 +388,7 @@ const Register: React.FC = () => {
       <div className="mt-4 text-center">
         <p className="text-text-light mb-2">Already a Member?</p>
         <a href="/login">
-          <button className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
+          <button className="bg-secondary border-2 border-white hover:bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300">
             Log In
           </button>
         </a>

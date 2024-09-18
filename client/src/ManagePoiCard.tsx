@@ -16,7 +16,7 @@ const ManagePoiCard: React.FC<PoiCardProps> = ({ poi }) => {
         />
       ) : (
         <img
-          src={`/public/bransonbear.png`}
+          src={`/bransonbear.png`}
           alt={poi.name}
           className="w-10% h-auto object-cover rounded"
         />

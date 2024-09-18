@@ -133,6 +133,11 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
     }
   };
 
+  // Handle edit cancellation
+  const cancelEdit = () => {
+    navigate("/admin-portal");
+  };
+
   return (
     <div className="p-4 bg-main min-h-screen flex flex-col items-center">
       <h1 className="text-2xl font-bold mb-4 text-text-light">
@@ -258,6 +263,13 @@ const AdminPoiForm: React.FC<AdminPoiFormProps> = ({ deletePoi, editPoi }) => {
             className="bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
           >
             Submit
+          </button>
+          <button
+            type="button"
+            onClick={() => cancelEdit()}
+            className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+          >
+            Cancel Changes
           </button>
           <button
             type="button"

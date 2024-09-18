@@ -12,7 +12,7 @@ interface UserProfileProps {
 }
 
 const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
-  const { userId: loggedInUserId, token, logout } = useAuth();
+  const { userId: activeUserId, token, logout } = useAuth();
   const [user, setUser] = useState<any | null>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [userData, setUserData] = useState({
@@ -27,7 +27,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
 
   const { id: profileId } = useParams();
   const navigate = useNavigate();
-  const isOwnProfile = loggedInUserId === profileId;
+  const isOwnProfile = activeUserId === profileId;
 
   const getUser = async () => {
     if (profileId && token) {
@@ -94,16 +94,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
       data.append("imagePath", userData.existingImagePath);
     }
     try {
-      await axios.put(
-        `http://localhost:5005/api/users/${loggedInUserId}`,
-        data,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      await axios.put(`http://localhost:5005/api/users/${activeUserId}`, data, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
+      });
       setImagePreview(null);
       getUser();
       setIsEditing(false);
@@ -122,14 +118,11 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
 
     if (isConfirmed) {
       try {
-        await axios.delete(
-          `http://localhost:5005/api/users/${loggedInUserId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.delete(`http://localhost:5005/api/users/${activeUserId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         logout();
         toast.success("Account deleted successfully.");
         navigate("/");
@@ -171,18 +164,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
             <div className="my-2 space-x-4 text-center">
               <button
                 onClick={handleEditClick}
-                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+                className="bg-secondary border-2 border-white hover:bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
               >
                 Edit Profile
               </button>
-              {/* {activeUserPois.length > 0 && ( */}
               <button
                 onClick={handleManageSubmissionsClick}
-                className="bg-secondary text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
+                className="bg-secondary border-2 border-white hover:bg-main text-text-light px-4 py-2 rounded hover:bg-secondary-dark transition duration-300"
               >
                 Manage Submissions
               </button>
-              {/* )} */}
             </div>
           )}
           <h2 className="text-2xl font-bold mb-2 text-center">
