@@ -12,6 +12,11 @@ export const faqs: Faq[] = [
   },
   {
     id: 2,
+    question: `Is this petty vandalism?`,
+    answer: `We like to think of it as petty art!`,
+  },
+  {
+    id: 2,
     question: `What or who is a Branson Bear?`,
     answer: `Branson Bear is a rare species, considered by experts to be a hybrid of a bear and a human.`,
   },
