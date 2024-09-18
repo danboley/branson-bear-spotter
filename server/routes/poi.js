@@ -23,7 +23,7 @@ router.get("/:id", getPoiById);
 router.get("/user/:userId", getPoisByUserId);
 
 // Update a POI
-router.put("/:id", authenticateToken, verifyPrivileges, updatePoi);
+router.put("/:id", authenticateToken, updatePoi);
 
 // Delete a POI
 router.delete("/:id", authenticateToken, verifyPrivileges, deletePoi);
