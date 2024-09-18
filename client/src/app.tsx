@@ -75,10 +75,7 @@ const App: React.FC = () => {
   }
 
   return (
-    <APIProvider
-      apiKey={apiKey}
-      onLoad={() => console.log("Maps API has loaded.")}
-    >
+    <APIProvider apiKey={apiKey}>
       <AuthProvider>
         <Router>
           <NavBar />
@@ -97,8 +94,14 @@ const App: React.FC = () => {
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
-            <Route path="/manage-submissions/:id" element={<ManageSubmissions />} />
-            <Route path="/edit-submission/:id" element={<EditSubmissionForm editPoi={editPoi}/>} />
+            <Route
+              path="/manage-submissions/:id"
+              element={<ManageSubmissions />}
+            />
+            <Route
+              path="/edit-submission/:id"
+              element={<EditSubmissionForm editPoi={editPoi} />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ToastContainer />

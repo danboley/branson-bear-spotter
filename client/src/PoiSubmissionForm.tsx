@@ -82,7 +82,6 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
       navigate("/map");
     } catch (error: any) {
       toast.error(error.response.data.error);
-      console.log(error);
     }
   };
 
