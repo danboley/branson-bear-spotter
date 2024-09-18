@@ -98,7 +98,7 @@ const App: React.FC = () => {
             <Route path="/pois/:id" element={<PoiDetails />} />
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
             <Route path="/manage-submissions/:id" element={<ManageSubmissions />} />
-            <Route path="/edit-submission/:id" element={<EditSubmissionForm />} />
+            <Route path="/edit-submission/:id" element={<EditSubmissionForm editPoi={editPoi}/>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <ToastContainer />

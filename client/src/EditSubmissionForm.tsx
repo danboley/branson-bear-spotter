@@ -3,8 +3,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "./AuthContext";
 import { toast } from "react-toastify";
+import { Poi } from "./types/types";
 
-const EditSubmissionForm: React.FC = () => {
+interface EditSubmissionFormProps {
+  editPoi: (editedPoi: Poi) => void;
+}
+
+const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
   const { id } = useParams<{ id: string }>();
   const { userId, token } = useAuth();
   const [poi, setPoi] = useState({
@@ -82,14 +87,19 @@ const EditSubmissionForm: React.FC = () => {
       }
 
       try {
-        await axios.put(`http://localhost:5005/api/pois/${id}`, data, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        });
+        const response = await axios.put(
+          `http://localhost:5005/api/pois/${id}`,
+          data,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        editPoi(response.data);
         toast.success("Submission updated successfully.");
-        navigate("/manage-submissions");
+        navigate(`/manage-submissions/${userId}`);
       } catch (error: any) {
         toast.error(error.message);
       }
