@@ -38,7 +38,7 @@ const PoiDetails: React.FC = () => {
         <img
           src={`http://localhost:5005${poi?.imagePath}`}
           alt={poi?.name}
-          className="max-w-lg w-full h-auto mb-4"
+          className="max-w-lg w-full h-auto mb-4 border-2 border-white"
         />
       ) : (
         <img

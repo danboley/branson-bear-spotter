@@ -228,6 +228,9 @@ const EditProfile: React.FC = () => {
               onChange={handleFileChange}
             />
           </div>
+          <label className="block text-lg font-semibold mb-2">
+            Update Password (Optional)
+          </label>
           <div className="mb-4">
             <label className="block text-lg font-semibold mb-2">
               Existing Password
