@@ -1,4 +1,5 @@
 const { User, Poi } = require("../models");
+const bcrypt = require("bcryptjs");
 const upload = require("../middlewares/imageUploads");
 const path = require("path");
 const fs = require("fs");
@@ -103,10 +104,46 @@ const deleteUser = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  const { existingPassword, newPassword } = req.body;
+
+  if (!existingPassword || !newPassword) {
+    return res
+      .status(400)
+      .json({ error: "Both existing and new passwords are required" });
+  }
+
+  try {
+    const user = await User.findByPk(req.params.id);
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const isPasswordValid = await bcrypt.compare(
+      existingPassword,
+      user.password
+    );
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Invalid existing password" });
+    }
+
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+    await User.update(
+      { password: hashedNewPassword },
+      { where: { id: user.id } }
+    );
+
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
   deleteUser,
+  updatePassword,
 };

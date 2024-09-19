@@ -12,6 +12,12 @@ export const faqs: Faq[] = [
   },
   {
     id: 2,
+    question: `How do I find coordinates?`,
+    answer: `In Google Maps, right-click on the area or place on the map to open a pop-up window. The latitude and longitude in decimal format will be at the top.
+     You can copy the coordinates by left-clicking on them.`,
+  },
+  {
+    id: 2,
     question: `Is this petty vandalism?`,
     answer: `We like to think of it as petty art!`,
   },

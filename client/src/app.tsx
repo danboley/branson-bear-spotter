@@ -24,6 +24,7 @@ import "react-toastify/dist/ReactToastify.css";
 import ManageSubmissions from "./ManageSubmissions";
 import EditSubmissionForm from "./EditSubmissionForm";
 import AdminRegistration from "./AdminRegistration";
+import EditProfile from "./EditProfile";
 
 const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
 
@@ -96,6 +97,8 @@ const App: React.FC = () => {
             />
             <Route path="/pois/:id" element={<PoiDetails />} />
             <Route path="/profile/:id" element={<UserProfile pois={pois} />} />
+            <Route path="/edit-profile/:id" element={<EditProfile />} />
+
             <Route
               path="/manage-submissions/:id"
               element={<ManageSubmissions />}

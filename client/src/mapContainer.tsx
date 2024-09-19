@@ -32,7 +32,7 @@ const MapContainer: React.FC<MapContainerProps> = ({ pois }) => {
           onClick={toggleMySubmissions}
           className="px-4 py-2 rounded text-text-light transition duration-300 bg-secondary border-2 border-white hover:bg-main"
         >
-          {showMySubmissions ? "All Locations" : "My Locations"}
+          {showMySubmissions ? "All Sightings" : "My Sightings"}
         </button>
       </div>
       <Map
