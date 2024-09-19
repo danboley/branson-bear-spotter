@@ -24,7 +24,9 @@ const ManageSubmissions: React.FC = () => {
         );
         setUserPois(response.data);
       } catch (error: any) {
-        toast.error(error.message);
+        error.status === 404
+          ? toast.error("No submissions found")
+          : toast.error(error.message);
       }
     };
 

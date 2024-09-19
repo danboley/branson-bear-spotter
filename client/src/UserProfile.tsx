@@ -24,6 +24,9 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     existingImagePath: "",
   });
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [existingPassword, setExistingPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
   const { id: profileId } = useParams();
   const navigate = useNavigate();
@@ -81,6 +84,12 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     }
   };
 
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "existingPassword") setExistingPassword(value);
+    if (name === "newPassword") setNewPassword(value);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const data = new FormData();
@@ -100,6 +109,24 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
           "Content-Type": "multipart/form-data",
         },
       });
+
+      // Handle password update
+      if (newPassword) {
+        const passwordData = {
+          existingPassword,
+          newPassword,
+        };
+        await axios.put(
+          `http://localhost:5005/api/users/${activeUserId}/password`,
+          passwordData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      }
+
       setImagePreview(null);
       getUser();
       setIsEditing(false);
@@ -285,6 +312,33 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
                   className="mt-4 w-full p-2 border border-gray-300 rounded"
                   onChange={handleFileChange}
                 />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  Existing Password
+                </label>
+                <input
+                  type="password"
+                  name="existingPassword"
+                  value={existingPassword}
+                  onChange={handlePasswordChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+              </div>
+              <div className="mb-4">
+                <label className="block text-lg font-semibold mb-2">
+                  New Password
+                </label>
+                <input
+                  type="password"
+                  name="newPassword"
+                  value={newPassword}
+                  onChange={handlePasswordChange}
+                  className="w-full p-2 border border-gray-300 rounded"
+                />
+                {passwordError && (
+                  <p className="text-red-500">{passwordError}</p>
+                )}
               </div>
               <div className="space-x-4">
                 <button

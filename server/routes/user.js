@@ -6,7 +6,9 @@ const {
   getUserById,
   updateUser,
   deleteUser,
+  updatePassword,
 } = require("../controllers/userController");
+const { authenticateToken } = require("../middlewares/auth");
 
 // Create a new user
 router.post("/", createUser);
@@ -22,5 +24,8 @@ router.put("/:id", updateUser);
 
 // Delete a user
 router.delete("/:id", deleteUser);
+
+// Update password
+router.put("/:id/password", authenticateToken, updatePassword);
 
 module.exports = router;
