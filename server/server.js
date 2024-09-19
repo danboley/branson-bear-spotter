@@ -17,6 +17,8 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/pois", poiRoutes);
 
-app.listen(5005, () => {
-  console.log("Server started on port 5005");
+const PORT = process.env.PORT || 5005;
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
