@@ -12,7 +12,7 @@ const ManageSubmissions: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchUserPois = async () => {
+    const getUserPois = async () => {
       try {
         const response = await axios.get(
           `http://localhost:5005/api/pois/user/${userId}`,
@@ -30,7 +30,7 @@ const ManageSubmissions: React.FC = () => {
       }
     };
 
-    fetchUserPois();
+    getUserPois();
   }, [userId, token]);
 
   const handleEditClick = (id: string) => {
@@ -38,22 +38,34 @@ const ManageSubmissions: React.FC = () => {
   };
 
   return (
-    <div className="p-4 bg-main text-text-light min-h-screen">
-      <h1 className="text-2xl font-bold mb-4">Manage Your Submissions</h1>
+    <div className="p-4 bg-main text-text-light min-h-screen text-center">
+      <h1 className="text-2xl font-bold mb-4">
+        Manage Your Sighting Submissions
+      </h1>
+      <h2 className="mb-4">
+        Click on a sighting to make edits and address approval notes.
+      </h2>
+      <h2 className="mb-6">
+        If a sighting has been approved, no edits needed!
+      </h2>
       {userPois.length > 0 ? (
         <div className="poi-cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {userPois.map((poi) => (
             <div
               key={poi.id}
               className="cursor-pointer"
-              onClick={() => handleEditClick(poi.id)}
+              onClick={
+                poi?.approvalStatus === "active"
+                  ? () => toast.success("Poi already approved!")
+                  : () => handleEditClick(poi.id)
+              }
             >
               <ManagePoiCard poi={poi} />
             </div>
           ))}
         </div>
       ) : (
-        <p>No submissions found.</p>
+        <p>No submissions yet!</p>
       )}
     </div>
   );

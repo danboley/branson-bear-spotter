@@ -21,13 +21,14 @@ const ManagePoiCard: React.FC<PoiCardProps> = ({ poi }) => {
           className="w-10% h-auto object-cover rounded"
         />
       )}
-      <a href={`http://localhost:5173/edit-submission/${poi.id}`}>
-        <p className="text-main text-lg font-semibold mt-2 hover:text-secondary transition duration-300">
-          {poi.name}
-        </p>
-      </a>
-      <p className="poi-address text-sm text-black">{poi.address}</p>
-      <p className="poi-details text-sm text-black mt-2">{poi.details}</p>
+      <p className="text-main text-lg font-semibold my-1 mt-2 transition duration-300">
+        {poi.name}
+      </p>
+      <p className="poi-address text-sm text-black my-1">
+        Approval Status: {poi.approvalStatus}
+      </p>
+      <p className="poi-address text-sm text-black my-1">{poi.address}</p>
+      <p className="poi-details text-sm text-black my-1">{poi.details}</p>
     </div>
   );
 };
