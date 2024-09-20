@@ -21,7 +21,7 @@ const DisplayPoiCard: React.FC<PoiCardProps> = ({ poi }) => {
           className="w-10% h-auto object-cover rounded"
         />
       )}
-      <a href={`http://localhost:5173/pois/${poi.id}`}>
+      <a href={`https://branson-bear.com/pois/${poi.id}`}>
         <p className="text-main text-lg font-semibold mt-2 hover:text-secondary transition duration-300">
           {poi.name}
         </p>
