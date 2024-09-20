@@ -5,7 +5,16 @@ const db = require("./models");
 const app = express();
 
 // Middleware
-app.use(cors());
+const allowedOrigins = [
+  "https://branson-bear.com",
+  "https://www.branson-bear.com",
+];
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use("/uploads", express.static("uploads"));
 
