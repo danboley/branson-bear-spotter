@@ -16,3 +16,8 @@ module.exports = {
     dialect: "postgres",
   },
 };
+
+const sequelize = require('./config/database');
+sequelize.authenticate()
+  .then(() => console.log('Database connected...'))
+  .catch((error) => console.error('Database connection error:', error));
