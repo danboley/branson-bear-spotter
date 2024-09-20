@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const databaseUrl = process.env.DATABASE_URL;
+const { DATABASE_URL } = process.env;
 
 module.exports = {
   development: {
@@ -12,12 +12,7 @@ module.exports = {
     dialect: "postgres",
   },
   production: {
-    url: databaseUrl,
+    url: DATABASE_URL,
     dialect: "postgres",
   },
 };
-
-const sequelize = require('./config/database');
-sequelize.authenticate()
-  .then(() => console.log('Database connected...'))
-  .catch((error) => console.error('Database connection error:', error));
