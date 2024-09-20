@@ -35,8 +35,6 @@ db.sequelize
     console.error("Database connection error:", error);
   });
 
-  console.log("process.env.DATABASE_URL:", process.env.DATABASE_URL)
-
 app.listen(PORT, () => {
   console.log(`Server started on port ${PORT}`);
 });
