@@ -136,7 +136,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
           {activeMarker.imagePath && activeMarker.imagePath.trim() !== "" ? (
             <a
               className="text-main mb-2"
-              href={`http://localhost:5173/pois/${activeMarker.id}`}
+              href={`https://branson-bear.com/pois/${activeMarker.id}`}
             >
               <img
                 className="w-full h-auto mb-2"
@@ -146,7 +146,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
           ) : (
             <a
               className="text-main mb-2"
-              href={`http://localhost:5173/pois/${activeMarker.id}`}
+              href={`https://branson-bear.com/pois/${activeMarker.id}`}
             >
               <img
                 className="w-full h-auto mb-2"
@@ -157,7 +157,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
 
           <a
             className="text-main mb-2"
-            href={`http://localhost:5173/pois/${activeMarker.id}`}
+            href={`https://branson-bear.com/pois/${activeMarker.id}`}
           >
             <p className="text-xl font-bold mb-2 hover:text-secondary transition duration-300">
               {activeMarker.name}

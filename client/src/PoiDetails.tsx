@@ -54,7 +54,7 @@ const PoiDetails: React.FC = () => {
       {poi?.User?.id !== undefined ? (
         <div className="flex items-center text-center mb-4">
           <h3 className="text-lg font-semibold mr-2">Submitted By:</h3>
-          <a href={`http://localhost:5173/profile/${poi?.User?.id}`}>
+          <a href={`https://branson-bear.com/profile/${poi?.User?.id}`}>
             <p className="text-lg font-semibold hover:text-secondary transition duration-300">
               {poi?.User?.username}
             </p>
