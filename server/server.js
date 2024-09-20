@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const db = require("./models");
 const app = express();
 
 // Middleware
@@ -17,6 +18,23 @@ app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/pois", poiRoutes);
 
-app.listen(5005, () => {
-  console.log("Server started on port 5005");
+const PORT = process.env.PORT || 5005;
+
+// Health Check Route
+app.get("/healthz", (req, res) => {
+  res.status(200).json({ status: "Healthy" });
+});
+
+// Check database connection
+db.sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Database connected...");
+  })
+  .catch((error) => {
+    console.error("Database connection error:", error);
+  });
+
+app.listen(PORT, () => {
+  console.log(`Server started on port ${PORT}`);
 });
