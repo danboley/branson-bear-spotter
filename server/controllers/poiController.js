@@ -35,9 +35,6 @@ const createPoi = async (req, res) => {
 const getAllPois = async (req, res) => {
   try {
     const pois = await Poi.findAll({ include: User });
-    if (pois.length === 0) {
-      return res.status(200).json({ message: "No POIs found" });
-    }
     res.status(200).json(pois);
   } catch (error) {
     res.status(500).json({ error: error.message });
