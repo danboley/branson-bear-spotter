@@ -190,7 +190,7 @@ const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Image</label>
+          <label className="block text-lg font-semibold mb-2">Image (Max 5MB)</label>
           {poi.existingImagePath && (
             <div className="mt-4">
               <label>Current Image</label>

@@ -153,7 +153,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
           />
         </div>
         <div className="mb-4">
-          <label className="block text-lg font-semibold mb-2">Image</label>
+          <label className="block text-lg font-semibold mb-2">Image (Max 5MB)</label>
           <input
             type="file"
             name="imagePath"
