@@ -33,7 +33,7 @@ const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
     const getPoiById = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/pois/${id}`
+          `https://branson-bear-spotter.onrender.com/api/pois/${id}`
         );
         setPoi({
           ...response.data,
@@ -88,7 +88,7 @@ const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
 
       try {
         const response = await axios.put(
-          `http://localhost:5005/api/pois/${id}`,
+          `https://branson-bear-spotter.onrender.com/api/pois/${id}`,
           data,
           {
             headers: {
@@ -195,7 +195,7 @@ const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
             <div className="mt-4">
               <label>Current Image</label>
               <img
-                src={`http://localhost:5005${poi.existingImagePath}`}
+                src={`https://branson-bear-spotter.onrender.com${poi.existingImagePath}`}
                 alt="Current POI"
                 className="w-full h-auto border border-gray-300 rounded"
               />

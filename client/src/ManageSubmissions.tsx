@@ -15,7 +15,7 @@ const ManageSubmissions: React.FC = () => {
     const getUserPois = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/pois/user/${userId}`,
+          `https://branson-bear-spotter.onrender.com/api/pois/user/${userId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,

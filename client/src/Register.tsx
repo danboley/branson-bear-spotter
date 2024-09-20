@@ -62,7 +62,7 @@ const Register: React.FC = () => {
 
     try {
       // Register
-      await axios.post("http://localhost:5005/api/auth/register", data, {
+      await axios.post("https://branson-bear-spotter.onrender.com/api/auth/register", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -70,7 +70,7 @@ const Register: React.FC = () => {
 
       // Login
       const loginResponse = await axios.post(
-        "http://localhost:5005/api/auth/login",
+        "https://branson-bear-spotter.onrender.com/api/auth/login",
         {
           email: formData.email,
           password: formData.password,

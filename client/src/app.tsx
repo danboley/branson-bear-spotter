@@ -48,7 +48,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const getPois = async () => {
       try {
-        const response = await axios.get("http://localhost:5005/api/pois");
+        const response = await axios.get("https://branson-bear-spotter.onrender.com/api/pois");
         setPois(response.data);
       } catch (error: any) {
         toast.error(error.message);

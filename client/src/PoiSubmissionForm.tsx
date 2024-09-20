@@ -68,7 +68,7 @@ const PoiSubmissionForm: React.FC<PoiSubmissionFormProps> = ({ addPoi }) => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:5005/api/pois",
+        "https://branson-bear-spotter.onrender.com/api/pois",
         data,
         {
           headers: {

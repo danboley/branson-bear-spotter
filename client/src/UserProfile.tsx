@@ -31,7 +31,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
     if (profileId && token) {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/users/${profileId}`,
+          `https://branson-bear-spotter.onrender.com/api/users/${profileId}`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -76,7 +76,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
           <img
             src={
               user.imagePath
-                ? `http://localhost:5005${user.imagePath}`
+                ? `https://branson-bear-spotter.onrender.com${user.imagePath}`
                 : "/stockprofilepicture.png"
             }
             alt="Profile"
