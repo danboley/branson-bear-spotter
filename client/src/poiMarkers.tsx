@@ -140,7 +140,7 @@ const PoiMarkers = ({ pois }: { pois: Poi[] }) => {
             >
               <img
                 className="w-full h-auto mb-2"
-                src={`http://localhost:5005${activeMarker.imagePath}`}
+                src={`https://branson-bear-spotter.onrender.com${activeMarker.imagePath}`}
               />
             </a>
           ) : (

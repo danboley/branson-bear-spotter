@@ -17,7 +17,7 @@ const Login: React.FC = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:5005/api/auth/login",
+        "https://branson-bear-spotter.onrender.com/api/auth/login",
         { email, password }
       );
       const { token, user } = response.data;

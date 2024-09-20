@@ -13,7 +13,7 @@ const PoiDetails: React.FC = () => {
     const getPoiById = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:5005/api/pois/${id}`
+          `https://branson-bear-spotter.onrender.com/api/pois/${id}`
         );
         setPoi({
           ...response.data,
@@ -36,7 +36,7 @@ const PoiDetails: React.FC = () => {
       <h2 className="text-3xl font-bold mb-4 sm:w-1/2 w-5/6">{poi?.name}</h2>
       {poi?.imagePath ? (
         <img
-          src={`http://localhost:5005${poi?.imagePath}`}
+          src={`https://branson-bear-spotter.onrender.com${poi?.imagePath}`}
           alt={poi?.name}
           className="max-w-lg w-full h-auto mb-4 border-2 border-white"
         />

@@ -26,7 +26,7 @@ const EditProfile: React.FC = () => {
       if (profileId && token) {
         try {
           const response = await axios.get(
-            `http://localhost:5005/api/users/${profileId}`,
+            `https://branson-bear-spotter.onrender.com/api/users/${profileId}`,
             {
               headers: {
                 Authorization: `Bearer ${token}`,
@@ -94,7 +94,7 @@ const EditProfile: React.FC = () => {
       data.append("imagePath", userData.existingImagePath);
     }
     try {
-      await axios.put(`http://localhost:5005/api/users/${activeUserId}`, data, {
+      await axios.put(`https://branson-bear-spotter.onrender.com/api/users/${activeUserId}`, data, {
         headers: {
           Authorization: `Bearer ${token}`,
           "Content-Type": "multipart/form-data",
@@ -107,7 +107,7 @@ const EditProfile: React.FC = () => {
           newPassword,
         };
         await axios.put(
-          `http://localhost:5005/api/users/${activeUserId}/password`,
+          `https://branson-bear-spotter.onrender.com/api/users/${activeUserId}/password`,
           passwordData,
           {
             headers: {
@@ -132,7 +132,7 @@ const EditProfile: React.FC = () => {
 
     if (isConfirmed) {
       try {
-        await axios.delete(`http://localhost:5005/api/users/${activeUserId}`, {
+        await axios.delete(`https://branson-bear-spotter.onrender.com/api/users/${activeUserId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -205,7 +205,7 @@ const EditProfile: React.FC = () => {
               <div className="mt-4">
                 <label>Current Image</label>
                 <img
-                  src={`http://localhost:5005${userData?.existingImagePath}`}
+                  src={`https://branson-bear-spotter.onrender.com${userData?.existingImagePath}`}
                   alt="Current Profile Picture"
                   className="w-full h-auto border border-gray-300 rounded"
                 />

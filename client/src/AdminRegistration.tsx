@@ -72,14 +72,14 @@ const AdminRegistration: React.FC = () => {
     data.append("password", formData.password);
 
     try {
-      await axios.post("http://localhost:5005/api/auth/register", data, {
+      await axios.post("https://branson-bear-spotter.onrender.com/api/auth/register", data, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
 
       const loginResponse = await axios.post(
-        "http://localhost:5005/api/auth/login",
+        "https://branson-bear-spotter.onrender.com/api/auth/login",
         {
           email: formData.email,
           password: formData.password,
