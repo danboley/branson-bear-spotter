@@ -62,7 +62,6 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   };
 
   if (!user) {
-    console.log("user error");
     return <div>Loading...</div>;
   }
 
