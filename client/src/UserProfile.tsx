@@ -28,15 +28,16 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
   const isOwnProfile = activeUserId === profileId;
 
   const getUser = async () => {
-    if (profileId && token) {
+    if (profileId) {
       try {
+        const headers = token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : {};
         const response = await axios.get(
           `https://branson-bear-spotter.onrender.com/api/users/${profileId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers }
         );
         setUser(response.data);
         setUserData({
