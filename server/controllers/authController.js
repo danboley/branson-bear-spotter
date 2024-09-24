@@ -1,7 +1,7 @@
 const { User } = require("../models");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const upload = require("../middlewares/imageUploads");
+const { upload, uploadImageToGCS } = require("../middlewares/imageUploads");
 
 const register = (req, res) => {
   upload(req, res, async (err) => {
@@ -21,6 +21,10 @@ const register = (req, res) => {
 
       const hashedPassword = await bcrypt.hash(password, 10);
 
+      if (req.file) {
+        imagePath = await uploadImageToGCS(req.file);
+      }
+
       const newUser = await User.create({
         username,
         email,
@@ -29,7 +33,7 @@ const register = (req, res) => {
         lastName,
         isAdmin,
         location,
-        imagePath: req.file ? `/uploads/${req.file.filename}` : null,
+        imagePath,
       });
 
       res.status(201).json(newUser);
@@ -57,7 +61,7 @@ const login = async (req, res) => {
     const token = jwt.sign(
       { userId: user.id, isAdmin: user.isAdmin },
       process.env.JWT_SECRET,
-      { expiresIn: "48h" }
+      { expiresIn: "168h" }
     );
 
     res.json({

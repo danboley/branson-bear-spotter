@@ -75,9 +75,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
         <div className="mb-4 flex justify-center">
           <img
             src={
-              user.imagePath
-                ? `https://branson-bear-spotter.onrender.com${user.imagePath}`
-                : "/stockprofilepicture.png"
+              user.imagePath ? `${user.imagePath}` : "/stockprofilepicture.png"
             }
             alt="Profile"
             className="mt-2 w-32 h-32 object-cover rounded-full border-2 border-white"

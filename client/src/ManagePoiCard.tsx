@@ -10,7 +10,7 @@ const ManagePoiCard: React.FC<PoiCardProps> = ({ poi }) => {
     <div className=" bg-white shadow-md p-4 rounded-lg">
       {poi?.imagePath ? (
         <img
-          src={`https://branson-bear-spotter.onrender.com${poi?.imagePath}`}
+          src={poi?.imagePath}
           alt={poi.name}
           className="w-10% h-auto object-cover rounded"
         />

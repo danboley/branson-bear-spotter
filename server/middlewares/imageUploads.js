@@ -1,34 +1,51 @@
 const multer = require("multer");
-const path = require("path");
+const { format } = require('util');
+const bucket = require("../config/googleCloudStorage");
 
-// Set storage engine
-const storage = multer.diskStorage({
-  destination: "./uploads/",
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}-${file.originalname}`);
-  },
-});
+// Set up multer storage (in-memory buffer)
+const storage = multer.memoryStorage();
 
-// Init upload
 const upload = multer({
   storage: storage,
   limits: { fileSize: 5000000 }, // 5MB limit
   fileFilter: (req, file, cb) => {
-    checkFileType(file, cb);
+    const filetypes = /jpeg|jpg|png|gif|heic|heif/;
+    const extname = filetypes.test(file.originalname.toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+    if (mimetype && extname) {
+      return cb(null, true);
+    } else {
+      cb("Error: Images Only!");
+    }
   },
 }).single("imagePath");
 
-// Check file type
-function checkFileType(file, cb) {
-  const filetypes = /jpeg|jpg|png|gif|heic|heif/;
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-  const mimetype = filetypes.test(file.mimetype);
+// Helper function to upload image to Google Cloud Storage
+const uploadImageToGCS = (file) => {
+  return new Promise((resolve, reject) => {
+    if (!file) {
+      return reject("No file provided");
+    }
 
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    cb("Error: Images Only!");
-  }
-}
+    const blob = bucket.file(Date.now() + "-" + file.originalname);
+    const blobStream = blob.createWriteStream({
+      resumable: false,
+      contentType: file.mimetype,
+    });
 
-module.exports = upload;
+    blobStream.on("error", (err) => {
+      reject(err);
+    });
+
+    blobStream.on("finish", () => {
+      const publicUrl = format(
+        `https://storage.googleapis.com/${bucket.name}/${blob.name}`
+      );
+      resolve(publicUrl);
+    });
+
+    blobStream.end(file.buffer);
+  });
+};
+
+module.exports = { upload, uploadImageToGCS };

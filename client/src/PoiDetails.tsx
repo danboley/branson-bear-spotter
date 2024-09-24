@@ -36,7 +36,7 @@ const PoiDetails: React.FC = () => {
       <h2 className="text-3xl font-bold mb-4 sm:w-1/2 w-5/6">{poi?.name}</h2>
       {poi?.imagePath ? (
         <img
-          src={`https://branson-bear-spotter.onrender.com${poi?.imagePath}`}
+          src={poi?.imagePath}
           alt={poi?.name}
           className="max-w-lg w-full h-auto mb-4 border-2 border-white"
         />

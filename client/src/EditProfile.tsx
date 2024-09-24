@@ -205,7 +205,7 @@ const EditProfile: React.FC = () => {
               <div className="mt-4">
                 <label>Current Image</label>
                 <img
-                  src={`https://branson-bear-spotter.onrender.com${userData?.existingImagePath}`}
+                  src={userData?.existingImagePath}
                   alt="Current Profile Picture"
                   className="w-full h-auto border border-gray-300 rounded"
                 />

@@ -195,7 +195,7 @@ const EditSubmissionForm: React.FC<EditSubmissionFormProps> = ({ editPoi }) => {
             <div className="mt-4">
               <label>Current Image</label>
               <img
-                src={`https://branson-bear-spotter.onrender.com${poi.existingImagePath}`}
+                src={poi.existingImagePath}
                 alt="Current POI"
                 className="w-full h-auto border border-gray-300 rounded"
               />
