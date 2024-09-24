@@ -76,7 +76,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ pois }) => {
           <img
             src={
               user.imagePath
-                ? `https://branson-bear-spotter.onrender.com${user.imagePath}`
+                ? `${user.imagePath}`
                 : "/stockprofilepicture.png"
             }
             alt="Profile"

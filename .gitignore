@@ -16,6 +16,7 @@
 # production
 /build
 /client/dist/
+server/config/reference-point-436118-q9-a4218ce7272c.json
 
 # misc
 .DS_Store

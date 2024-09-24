@@ -1,17 +1,18 @@
 const { User, Poi } = require("../models");
 const bcrypt = require("bcryptjs");
-const upload = require("../middlewares/imageUploads");
-const path = require("path");
-const fs = require("fs");
+const { upload, uploadImageToGCS } = require("../middlewares/imageUploads");
+const { Storage } = require("@google-cloud/storage");
+const storage = new Storage();
+const bucket = storage.bucket(process.env.GOOGLE_CLOUD_BUCKET_NAME);
 
 // Helper function to delete old image
-const deleteOldImage = (imagePath) => {
-  if (imagePath) {
-    const oldImagePath = path.join(__dirname, "..", imagePath);
-    fs.unlink(oldImagePath, (err) => {
-      if (err) console.error("Error deleting old file:", err);
-    });
-  }
+const deleteFromGCS = (imagePath) => {
+  const fileName = imagePath.split("/").pop();
+  const file = bucket.file(fileName);
+
+  return file.delete().catch((err) => {
+    console.error("Failed to delete file from Google Cloud Storage", err);
+  });
 };
 
 // Create a new user
@@ -59,14 +60,16 @@ const updateUser = (req, res) => {
         return res.status(404).json({ error: "User not found" });
       }
 
-      const updatedData = { ...req.body };
+      let imagePath = user.imagePath;
 
       if (req.file) {
-        deleteOldImage(user.imagePath);
-        updatedData.imagePath = `/uploads/${req.file.filename}`;
-      } else if (req.body.existingImagePath) {
-        updatedData.imagePath = req.body.existingImagePath;
+        if (user.imagePath) {
+          await deleteFromGCS(user.imagePath);
+        }
+        imagePath = await uploadImageToGCS(req.file);
       }
+
+      const updatedData = { ...req.body, imagePath };
 
       await User.update(updatedData, {
         where: { id: req.params.id },
@@ -88,6 +91,10 @@ const deleteUser = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });
+    }
+
+    if (user.imagePath) {
+      await deleteFromGCS(user.imagePath);
     }
 
     // Update associated POIs to have NULL userId
