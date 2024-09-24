@@ -1,4 +1,4 @@
-const bucket = require("./config/googleCloudStorage"); // Adjust the path if necessary
+const bucket = require("./config/googleCloudStorage");
 
 async function testUpload() {
   const fileName = "test-file.txt";
